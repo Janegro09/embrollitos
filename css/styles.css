@@ -182,6 +182,9 @@ button, input, select {
 }
 
 .header__enlace {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
     font-size: 0.95rem;
     font-weight: 500;
     color: var(--color-texto-secundario);
@@ -193,16 +196,26 @@ button, input, select {
     color: var(--color-primario);
 }
 
+.header__nav-svg {
+    width: 15px;
+    height: 15px;
+    fill: currentColor;
+    flex-shrink: 0;
+    opacity: 0.75;
+}
+
 .header__enlace--instagram {
-    display: inline-flex;
-    align-items: center;
-    gap: 0.35rem;
     color: var(--color-instagram);
     font-weight: 600;
 }
 
 .header__enlace--instagram:hover {
     color: var(--color-instagram-hover);
+}
+
+/* El ícono de Instagram usa las mismas reglas de .header__nav-svg pero sin opacidad reducida */
+.header__ig-svg {
+    opacity: 1;
 }
 
 /* Botón de Carrito en el Header */
