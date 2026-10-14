@@ -14,6 +14,9 @@
     --color-exito: #198754;
     --color-peligro: #dc3545;
     --color-peligro-hover: #bb2d3b;
+    --color-instagram: #e1306c;
+    --color-instagram-hover: #c13584;
+    --gradiente-instagram: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
 
     /* Fondos y Superficies */
     --color-fondo: #f8f9fa;
@@ -188,6 +191,18 @@ button, input, select {
 
 .header__enlace:hover {
     color: var(--color-primario);
+}
+
+.header__enlace--instagram {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    color: var(--color-instagram);
+    font-weight: 600;
+}
+
+.header__enlace--instagram:hover {
+    color: var(--color-instagram-hover);
 }
 
 /* Botón de Carrito en el Header */
@@ -531,6 +546,22 @@ button, input, select {
     border-color: var(--color-borde-hover);
 }
 
+.btn-instagram {
+    background: var(--gradiente-instagram);
+    color: var(--color-texto-claro);
+    border: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.btn-instagram:hover:not(:disabled) {
+    filter: brightness(1.08);
+    transform: translateY(-1px);
+    box-shadow: 0 4px 14px rgba(225, 48, 108, 0.35);
+}
+
 .btn-agregar-carrito {
     width: 100%;
     background-color: var(--color-primario);
@@ -635,6 +666,21 @@ button:disabled {
 .contacto__parrafo {
     font-size: 0.95rem;
     color: var(--color-texto-principal);
+}
+
+.contacto__link-instagram {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    color: var(--color-instagram);
+    font-weight: 600;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    transition: color var(--transicion-rapida);
+}
+
+.contacto__link-instagram:hover {
+    color: var(--color-instagram-hover);
 }
 
 /* ==========================================================================
@@ -925,6 +971,53 @@ button:disabled {
     font-weight: 700;
 }
 
+/* Mensaje de Aviso de Instagram en el Carrito */
+.carrito-aviso-instagram {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    background: linear-gradient(135deg, #fff5f8 0%, #fdf2f8 100%);
+    border: 1px solid #fbcfe8;
+    border-radius: var(--radio-md);
+    padding: 0.85rem 1rem;
+    margin-bottom: 1.15rem;
+}
+
+.carrito-aviso-instagram__icono-caja {
+    font-size: 1.35rem;
+    line-height: 1;
+    color: var(--color-instagram);
+    flex-shrink: 0;
+}
+
+.carrito-aviso-instagram__texto-caja {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.carrito-aviso-instagram__titulo {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #9d174d;
+}
+
+.carrito-aviso-instagram__descripcion {
+    font-size: 0.82rem;
+    color: #4b5563;
+    line-height: 1.4;
+}
+
+.carrito-aviso-instagram__enlace {
+    color: var(--color-instagram);
+    font-weight: 700;
+    text-decoration: underline;
+}
+
+.carrito-aviso-instagram__enlace:hover {
+    color: var(--color-instagram-hover);
+}
+
 .carrito-acciones {
     display: flex;
     flex-direction: column;
@@ -1008,13 +1101,56 @@ button:disabled {
     border: 1px solid var(--color-borde);
     border-radius: var(--radio-md);
     padding: 1rem;
-    margin-bottom: 1.75rem;
+    margin-bottom: 1.25rem;
     text-align: left;
     font-size: 0.9rem;
 }
 
 .modal__resumen-caja p {
     margin-bottom: 0.35rem;
+}
+
+.modal__mensaje-pegado {
+    margin-bottom: 1.5rem;
+    text-align: left;
+}
+
+.modal__mensaje-pegado-titulo {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-texto-secundario);
+    margin-bottom: 0.35rem;
+}
+
+.modal__textarea-caja {
+    width: 100%;
+}
+
+.modal__textarea {
+    width: 100%;
+    background-color: var(--color-superficie-alt);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-sm);
+    padding: 0.75rem;
+    font-size: 0.82rem;
+    font-family: inherit;
+    resize: none;
+    color: var(--color-texto-principal);
+    line-height: 1.45;
+}
+
+.modal__acciones {
+    display: flex;
+    flex-direction: column;
+    gap: 0.65rem;
+}
+
+@media (min-width: 480px) {
+    .modal__acciones {
+        flex-direction: row;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
 }
 
 /* ==========================================================================
@@ -1131,6 +1267,45 @@ button:disabled {
     font-size: 0.9rem;
     max-width: 500px;
     line-height: 1.5;
+}
+
+.footer__redes {
+    margin-top: 0.85rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+}
+
+.footer__redes-etiqueta {
+    font-size: 0.85rem;
+    color: #cbd5e1;
+}
+
+.footer__redes-items {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+.footer__red-enlace {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45rem;
+    color: #e2e8f0;
+    font-size: 0.88rem;
+    background-color: rgba(255, 255, 255, 0.08);
+    padding: 0.45rem 0.9rem;
+    border-radius: var(--radio-full);
+    transition: all var(--transicion-rapida);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+}
+
+.footer__red-enlace:hover {
+    background: var(--gradiente-instagram);
+    color: #ffffff;
+    border-color: transparent;
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(225, 48, 108, 0.35);
 }
 
 .footer__creditos {

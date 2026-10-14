@@ -38,6 +38,12 @@
                     <li class="header__item">
                         <a href="#contacto" class="header__enlace">Contacto</a>
                     </li>
+                    <li class="header__item">
+                        <a href="https://www.instagram.com/embrollitos.malu/" target="_blank" rel="noopener noreferrer" class="header__enlace header__enlace--instagram" aria-label="Instagram de Embrollitos MaLu">
+                            <span class="header__red-icono" aria-hidden="true">📸</span>
+                            <span class="header__red-texto">Instagram</span>
+                        </a>
+                    </li>
                 </ul>
             </nav>
 
@@ -191,6 +197,15 @@
                     <div class="contacto__dato">
                         <p class="contacto__parrafo"><strong>Cátedra:</strong> Programación III - UTN Div 131</p>
                     </div>
+                    <div class="contacto__dato contacto__dato--instagram">
+                        <p class="contacto__parrafo">
+                            <strong>Instagram:</strong>
+                            <a href="https://www.instagram.com/embrollitos.malu/" target="_blank" rel="noopener noreferrer" class="contacto__link-instagram" aria-label="Perfil de Instagram de Embrollitos MaLu">
+                                <span class="contacto__instagram-icono" aria-hidden="true">📸</span>
+                                <span>@embrollitos.malu</span>
+                            </a>
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
@@ -259,6 +274,21 @@
                     </div>
                 </div>
 
+                <!-- Mensaje para confirmar la compra contactando al Instagram -->
+                <div id="carrito-aviso-instagram" class="carrito-aviso-instagram">
+                    <div class="carrito-aviso-instagram__icono-caja">
+                        <span class="carrito-aviso-instagram__icono" aria-hidden="true">💬</span>
+                    </div>
+                    <div class="carrito-aviso-instagram__texto-caja">
+                        <p class="carrito-aviso-instagram__titulo">Confirmá tu compra por Instagram</p>
+                        <p class="carrito-aviso-instagram__descripcion">
+                            Para coordinar diseño personalizado y entrega, escribinos por mensaje directo a 
+                            <a href="https://www.instagram.com/embrollitos.malu/" target="_blank" rel="noopener noreferrer" class="carrito-aviso-instagram__enlace">@embrollitos.malu</a>.
+                            Al confirmar, copiaremos tu pedido para que solo tengas que pegarlo en el chat.
+                        </p>
+                    </div>
+                </div>
+
                 <div class="carrito-acciones">
                     <div class="carrito-acciones__item">
                         <button type="button" id="btn-vaciar-carrito" class="btn-secundario btn-ancho-completo">
@@ -266,8 +296,9 @@
                         </button>
                     </div>
                     <div class="carrito-acciones__item">
-                        <button type="button" id="btn-finalizar-compra" class="btn-primario btn-ancho-completo">
-                            Finalizar Compra
+                        <button type="button" id="btn-finalizar-compra" class="btn-primario btn-ancho-completo btn-instagram">
+                            <span class="btn-icono" aria-hidden="true">📸</span>
+                            <span>Confirmar Pedido por Instagram</span>
                         </button>
                     </div>
                 </div>
@@ -284,13 +315,29 @@
             <div class="modal__icono-caja">
                 <span class="modal__icono" aria-hidden="true">🎉</span>
             </div>
-            <h3 id="modal-titulo" class="modal__titulo">¡Compra Realizada con Éxito!</h3>
-            <p id="modal-mensaje" class="modal__descripcion">Tu pedido fue procesado correctamente. Gracias por confiar en Embrollitos MaLu.</p>
+            <h3 id="modal-titulo" class="modal__titulo">¡Pedido Listo para Instagram!</h3>
+            <p id="modal-mensaje" class="modal__descripcion">
+                Copiamos automáticamente el detalle de tu compra al portapapeles y preparamos el chat de Instagram para que puedas enviarlo directamente a <strong>@embrollitos.malu</strong>.
+            </p>
             <div class="modal__resumen-caja" id="modal-resumen">
                 <!-- Resumen de confirmación inyectado por JS -->
             </div>
+            <div class="modal__mensaje-pegado">
+                <p class="modal__mensaje-pegado-titulo"><strong>Mensaje preparado para enviar:</strong></p>
+                <div class="modal__textarea-caja">
+                    <textarea id="modal-texto-pedido" class="modal__textarea" readonly rows="5" aria-label="Texto del pedido preparado para Instagram"></textarea>
+                </div>
+            </div>
             <div class="modal__acciones">
-                <button type="button" id="btn-cerrar-modal" class="btn-primario">Aceptar y Continuar</button>
+                <button type="button" id="btn-copiar-nuevamente" class="btn-secundario">
+                    <span aria-hidden="true">📋</span>
+                    <span>Copiar mensaje</span>
+                </button>
+                <a href="https://ig.me/m/embrollitos.malu" id="btn-abrir-chat-ig" target="_blank" rel="noopener noreferrer" class="btn-primario btn-instagram">
+                    <span aria-hidden="true">💬</span>
+                    <span>Abrir Chat de Instagram</span>
+                </a>
+                <button type="button" id="btn-cerrar-modal" class="btn-secundario">Aceptar y Continuar</button>
             </div>
         </div>
     </div>
@@ -309,6 +356,15 @@
                 <div class="footer__info">
                     <h3 class="footer__titulo">Embrollitos MaLu</h3>
                     <p class="footer__descripcion">Especialistas en tazas sublimadas, bazar y artículos para personalización de máxima calidad.</p>
+                    <div class="footer__redes">
+                        <p class="footer__redes-etiqueta"><strong>Redes sociales:</strong></p>
+                        <div class="footer__redes-items">
+                            <a href="https://www.instagram.com/embrollitos.malu/" target="_blank" rel="noopener noreferrer" class="footer__red-enlace" aria-label="Seguinos en Instagram @embrollitos.malu">
+                                <span class="footer__red-icono" aria-hidden="true">📸</span>
+                                <span>Instagram: @embrollitos.malu</span>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
 

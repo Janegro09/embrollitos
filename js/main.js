@@ -155,13 +155,19 @@ const carritoSubtotal = document.getElementById("carrito-subtotal");
 const carritoTotal = document.getElementById("carrito-total");
 const btnVaciarCarrito = document.getElementById("btn-vaciar-carrito");
 const btnFinalizarCompra = document.getElementById("btn-finalizar-compra");
+const carritoAvisoInstagram = document.getElementById("carrito-aviso-instagram");
 
 // Modal de Checkout y Toasts
 const modalCheckout = document.getElementById("modal-checkout");
 const modalOverlay = document.getElementById("modal-overlay");
 const modalResumen = document.getElementById("modal-resumen");
+const modalTextoPedido = document.getElementById("modal-texto-pedido");
 const btnCerrarModal = document.getElementById("btn-cerrar-modal");
+const btnCopiarNuevamente = document.getElementById("btn-copiar-nuevamente");
+const btnAbrirChatIg = document.getElementById("btn-abrir-chat-ig");
 const toastContenedor = document.getElementById("toast-contenedor");
+
+let ultimoTextoPedido = "";
 
 /* ==========================================================================
    4. Funciones de Utilidad y Formateo
@@ -210,6 +216,57 @@ function mostrarToast(mensaje, tipo = "exito") {
             }
         }, 300);
     }, 2500);
+}
+
+/**
+ * Copia un texto al portapapeles del navegador con compatibilidad moderna y fallback
+ * @param {string} texto 
+ * @returns {Promise<boolean>}
+ */
+async function copiarAlPortapapeles(texto) {
+    if (navigator.clipboard && window.isSecureContext) {
+        try {
+            await navigator.clipboard.writeText(texto);
+            return true;
+        } catch (error) {
+            console.warn("Clipboard API falló, usando fallback de textarea:", error);
+        }
+    }
+
+    try {
+        const areaTemporal = document.createElement("textarea");
+        areaTemporal.value = texto;
+        areaTemporal.setAttribute("readonly", "");
+        areaTemporal.style.position = "fixed";
+        areaTemporal.style.left = "-9999px";
+        document.body.appendChild(areaTemporal);
+        areaTemporal.select();
+        const copiado = document.execCommand("copy");
+        document.body.removeChild(areaTemporal);
+        return copiado;
+    } catch (error) {
+        console.error("Error al copiar al portapapeles:", error);
+        return false;
+    }
+}
+
+/**
+ * Genera el texto formateado con los productos del carrito para enviar por Instagram Direct
+ * @param {Array} items 
+ * @param {number} total 
+ * @param {number} nroOrden 
+ * @returns {string}
+ */
+function generarTextoPedido(items, total, nroOrden) {
+    let mensaje = `¡Hola Embrollitos MaLu! 👋 Quiero coordinar este pedido realizado en la web:\n\n`;
+    items.forEach((item, index) => {
+        mensaje += `${index + 1}. ${item.nombre} (x${item.cantidad}) - ${formatearPrecio(item.precio * item.cantidad)}\n`;
+    });
+    mensaje += `\n📦 Total: ${formatearPrecio(total)}`;
+    mensaje += `\n🚚 Envío: ¡Gratis!`;
+    mensaje += `\n🔖 N° de orden: #${nroOrden}`;
+    mensaje += `\n\n¿Me indican cómo continuar con el diseño, pago y entrega? ¡Muchas gracias!`;
+    return mensaje;
 }
 
 /* ==========================================================================
@@ -427,6 +484,9 @@ function actualizarCarritoUI() {
         carritoListado.innerHTML = "";
         carritoListado.style.display = "none";
         carritoVacio.style.display = "flex";
+        if (carritoAvisoInstagram) {
+            carritoAvisoInstagram.style.display = "none";
+        }
         btnVaciarCarrito.disabled = true;
         btnFinalizarCompra.disabled = true;
         return;
@@ -434,6 +494,9 @@ function actualizarCarritoUI() {
 
     carritoVacio.style.display = "none";
     carritoListado.style.display = "flex";
+    if (carritoAvisoInstagram) {
+        carritoAvisoInstagram.style.display = "flex";
+    }
     btnVaciarCarrito.disabled = false;
     btnFinalizarCompra.disabled = false;
 
@@ -493,30 +556,53 @@ function cerrarCarrito() {
     document.body.style.overflow = "";
 }
 
-function finalizarCompra() {
+async function finalizarCompra() {
     if (carrito.length === 0) return;
 
     const { totalItems, total } = calcularTotales();
+    const nroOrden = Math.floor(100000 + Math.random() * 900000);
+
+    // Generar el mensaje formateado con los productos exactos que se quisieron comprar
+    ultimoTextoPedido = generarTextoPedido(carrito, total, nroOrden);
+
+    // Intentar copiar automáticamente al portapapeles
+    const copiadoExitoso = await copiarAlPortapapeles(ultimoTextoPedido);
+
+    // Cargar en el textarea del modal para que el usuario pueda verlo y copiarlo
+    if (modalTextoPedido) {
+        modalTextoPedido.value = ultimoTextoPedido;
+    }
 
     // Generar detalle para el modal de confirmación
     modalResumen.innerHTML = `
         <div class="modal__resumen-fila">
-            <p><strong>Artículos adquiridos:</strong> ${totalItems} unidad(es)</p>
+            <p><strong>Artículos en el pedido:</strong> ${totalItems} unidad(es)</p>
         </div>
         <div class="modal__resumen-fila">
-            <p><strong>Total abonado:</strong> ${formatearPrecio(total)}</p>
+            <p><strong>Total estimado:</strong> ${formatearPrecio(total)}</p>
         </div>
         <div class="modal__resumen-fila">
-            <p><strong>Método de entrega:</strong> Envío a domicilio gratis</p>
+            <p><strong>N° de orden:</strong> #${nroOrden}</p>
         </div>
         <div class="modal__resumen-fila">
-            <p><strong>N° de operación simulada:</strong> #${Math.floor(100000 + Math.random() * 900000)}</p>
+            <p><strong>Portapapeles:</strong> ${copiadoExitoso ? "📋 ¡Detalle copiado! Presioná Pegar (Ctrl + V) en el chat." : "⚠️ Copiá el texto del recuadro para enviarlo."}</p>
         </div>
     `;
 
     // Cerrar drawer y mostrar modal de éxito
     cerrarCarrito();
     modalCheckout.classList.remove("modal--oculto");
+
+    if (copiadoExitoso) {
+        mostrarToast("📋 ¡Detalle copiado! Abrimos Instagram para enviar el pedido", "exito");
+    }
+
+    // Abrir Instagram Direct del comercio
+    try {
+        window.open("https://ig.me/m/embrollitos.malu", "_blank");
+    } catch (e) {
+        console.warn("No se pudo abrir automáticamente la ventana de Instagram:", e);
+    }
 
     // Vaciar carrito y limpiar storage tras concretar compra
     carrito = [];
@@ -596,6 +682,17 @@ document.addEventListener("DOMContentLoaded", () => {
     // 7. Modal de checkout
     btnCerrarModal.addEventListener("click", cerrarModalCheckout);
     modalOverlay.addEventListener("click", cerrarModalCheckout);
+
+    if (btnCopiarNuevamente) {
+        btnCopiarNuevamente.addEventListener("click", async () => {
+            if (ultimoTextoPedido) {
+                const copiado = await copiarAlPortapapeles(ultimoTextoPedido);
+                if (copiado) {
+                    mostrarToast("📋 ¡Mensaje del pedido vuelto a copiar!", "exito");
+                }
+            }
+        });
+    }
 
     // 8. Búsqueda y filtrado dinámico
     inputBusqueda.addEventListener("input", aplicarFiltrosYOrden);
