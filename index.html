@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Embrollitos MaLu | Tienda de Artículos Personalizados</title>
+    <!-- Estilos CSS externos -->
+    <link rel="stylesheet" href="css/styles.css">
+    <!-- Script Vanilla JavaScript diferido -->
+    <script defer src="js/main.js"></script>
+</head>
+<body>
+
+    <!-- Encabezado semántico principal -->
+    <header class="header">
+        <div class="header__contenedor">
+            
+            <!-- Contenedor de la marca y logo -->
+            <div class="header__marca">
+                <div class="header__logo-caja">
+                    <img src="logo.jpg" alt="Logo de la tienda Embrollitos MaLu" class="header__logo">
+                </div>
+                <div class="header__titulos">
+                    <h1 class="header__nombre">Embrollitos MaLu</h1>
+                    <p class="header__eslogan">Sublimación, Bazar & Merchandising</p>
+                </div>
+            </div>
+
+            <!-- Navegación principal -->
+            <nav class="header__nav" aria-label="Navegación principal">
+                <ul class="header__menu">
+                    <li class="header__item">
+                        <a href="#catalogo" class="header__enlace">Catálogo</a>
+                    </li>
+                    <li class="header__item">
+                        <a href="#beneficios" class="header__enlace">Beneficios</a>
+                    </li>
+                    <li class="header__item">
+                        <a href="#contacto" class="header__enlace">Contacto</a>
+                    </li>
+                </ul>
+            </nav>
+
+            <!-- Acceso al Carrito de compras -->
+            <div class="header__carrito-caja">
+                <button type="button" id="btn-abrir-carrito" class="btn-carrito" aria-label="Abrir carrito de compras">
+                    <span class="btn-carrito__icono" aria-hidden="true">🛒</span>
+                    <span class="btn-carrito__texto">Carrito</span>
+                    <span id="contador-carrito" class="btn-carrito__badge">0</span>
+                </button>
+            </div>
+
+        </div>
+    </header>
+
+    <!-- Contenido principal -->
+    <main class="main">
+
+        <!-- Sección de Bienvenida / Hero -->
+        <section class="hero">
+            <div class="hero__contenedor">
+                <div class="hero__texto">
+                    <h2 class="hero__titulo">Tus Diseños Favoritos en Productos Únicos</h2>
+                    <p class="hero__descripcion">Descubrí nuestra colección exclusiva de tazas, mates, pads gamer y accesorios para el hogar o la oficina.</p>
+                    <div class="hero__acciones">
+                        <a href="#catalogo" class="btn-hero">Explorar Catálogo</a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección Catálogo -->
+        <section id="catalogo" class="catalogo">
+            <div class="catalogo__contenedor">
+                
+                <div class="seccion-titulo">
+                    <h2 class="seccion-titulo__texto">Catálogo de Productos</h2>
+                    <p class="seccion-titulo__bajada">Seleccioná los artículos que querés y sumalos a tu carrito</p>
+                </div>
+
+                <!-- Barra de búsqueda y filtros -->
+                <div class="filtros">
+                    <form id="form-filtros" class="filtros__form" onsubmit="return false;">
+                        
+                        <!-- Búsqueda por texto -->
+                        <div class="filtros__campo">
+                            <label for="input-busqueda" class="filtros__label">Buscar producto:</label>
+                            <div class="filtros__input-wrapper">
+                                <input type="search" id="input-busqueda" class="filtros__input" placeholder="Ej: Taza, Mouse, Mate, Yerbero...">
+                            </div>
+                        </div>
+
+                        <!-- Filtro por categoría -->
+                        <div class="filtros__campo">
+                            <label for="select-categoria" class="filtros__label">Categoría:</label>
+                            <div class="filtros__select-wrapper">
+                                <select id="select-categoria" class="filtros__select">
+                                    <option value="todas">Todas las categorías</option>
+                                    <option value="Tazas">Tazas</option>
+                                    <option value="Bazar">Bazar</option>
+                                    <option value="Accesorios">Accesorios</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Ordenar por precio / nombre -->
+                        <div class="filtros__campo">
+                            <label for="select-orden" class="filtros__label">Ordenar por:</label>
+                            <div class="filtros__select-wrapper">
+                                <select id="select-orden" class="filtros__select">
+                                    <option value="destacados">Destacados</option>
+                                    <option value="precio-menor">Precio: Menor a Mayor</option>
+                                    <option value="precio-mayor">Precio: Mayor a Menor</option>
+                                    <option value="nombre-az">Nombre: A - Z</option>
+                                </select>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+
+                <!-- Grilla de productos (Renderizado dinámico mediante JS) -->
+                <div id="grilla-productos" class="grilla-productos">
+                    <!-- Las cards de los productos se inyectan dinámicamente con JavaScript -->
+                </div>
+
+                <!-- Mensaje cuando no hay resultados de búsqueda -->
+                <div id="sin-resultados" class="mensaje-aviso mensaje-aviso--oculto">
+                    <div class="mensaje-aviso__caja">
+                        <p class="mensaje-aviso__texto">No se encontraron productos que coincidan con los filtros aplicados.</p>
+                        <div class="mensaje-aviso__boton-caja">
+                            <button type="button" id="btn-limpiar-filtros" class="btn-secundario">Limpiar filtros</button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Sección de Beneficios / Confianza -->
+        <section id="beneficios" class="beneficios">
+            <div class="beneficios__contenedor">
+                
+                <div class="beneficios__card">
+                    <div class="beneficios__icono-caja">
+                        <span class="beneficios__icono" aria-hidden="true">🚚</span>
+                    </div>
+                    <div class="beneficios__texto-caja">
+                        <h3 class="beneficios__titulo">Envíos a Todo el País</h3>
+                        <p class="beneficios__descripcion">Llegamos a cada rincón con embalaje reforzado y seguro.</p>
+                    </div>
+                </div>
+
+                <div class="beneficios__card">
+                    <div class="beneficios__icono-caja">
+                        <span class="beneficios__icono" aria-hidden="true">⭐</span>
+                    </div>
+                    <div class="beneficios__texto-caja">
+                        <h3 class="beneficios__titulo">Calidad Premium</h3>
+                        <p class="beneficios__descripcion">Sublimación de alta definición y cerámica de primera calidad.</p>
+                    </div>
+                </div>
+
+                <div class="beneficios__card">
+                    <div class="beneficios__icono-caja">
+                        <span class="beneficios__icono" aria-hidden="true">💳</span>
+                    </div>
+                    <div class="beneficios__texto-caja">
+                        <h3 class="beneficios__titulo">Pagos Seguros</h3>
+                        <p class="beneficios__descripcion">Efectivo, transferencias y tarjetas de crédito o débito.</p>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- Sección de Contacto -->
+        <section id="contacto" class="contacto">
+            <div class="contacto__contenedor">
+                <div class="seccion-titulo">
+                    <h2 class="seccion-titulo__texto">Consultas y Pedidos Personalizados</h2>
+                    <p class="seccion-titulo__bajada">¿Necesitás merchandising para tu empresa o evento? Escribinos.</p>
+                </div>
+                <div class="contacto__info">
+                    <div class="contacto__dato">
+                        <p class="contacto__parrafo"><strong>Email:</strong> ventas@embrollitosmalu.com.ar</p>
+                    </div>
+                    <div class="contacto__dato">
+                        <p class="contacto__parrafo"><strong>Ubicación:</strong> Buenos Aires, Argentina</p>
+                    </div>
+                    <div class="contacto__dato">
+                        <p class="contacto__parrafo"><strong>Cátedra:</strong> Programación III - UTN Div 131</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Drawer Lateral del Carrito de Compras -->
+    <div id="carrito-drawer" class="carrito-drawer" aria-hidden="true">
+        
+        <!-- Telón de fondo (overlay) -->
+        <div id="carrito-overlay" class="carrito-drawer__overlay"></div>
+
+        <!-- Panel lateral del carrito -->
+        <aside class="carrito-drawer__panel" aria-label="Carrito de compras">
+            
+            <!-- Encabezado del carrito -->
+            <div class="carrito-drawer__header">
+                <div class="carrito-drawer__titulo-caja">
+                    <h2 class="carrito-drawer__titulo">Tu Carrito</h2>
+                    <p class="carrito-drawer__subtitulo">
+                        <span id="carrito-items-contador">0</span> artículos seleccionados
+                    </p>
+                </div>
+                <div class="carrito-drawer__cerrar-caja">
+                    <button type="button" id="btn-cerrar-carrito" class="btn-cerrar" aria-label="Cerrar carrito de compras">
+                        <span aria-hidden="true">✕</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Listado de productos en el carrito -->
+            <div id="carrito-listado" class="carrito-drawer__listado">
+                <!-- Se inyectan los items dinámicamente con JS -->
+            </div>
+
+            <!-- Estado cuando el carrito está vacío -->
+            <div id="carrito-vacio" class="carrito-drawer__vacio">
+                <div class="carrito-drawer__vacio-icono-caja">
+                    <span class="carrito-drawer__vacio-icono" aria-hidden="true">🛍️</span>
+                </div>
+                <p class="carrito-drawer__vacio-texto">Tu carrito está vacío actualmente.</p>
+                <p class="carrito-drawer__vacio-bajada">Explorá el catálogo y agregá tus productos preferidos.</p>
+            </div>
+
+            <!-- Resumen y acciones del carrito -->
+            <div class="carrito-drawer__footer">
+                
+                <div class="carrito-resumen">
+                    <div class="carrito-resumen__fila">
+                        <p class="carrito-resumen__etiqueta">Subtotal:</p>
+                        <p class="carrito-resumen__monto">
+                            <span id="carrito-subtotal">$0</span>
+                        </p>
+                    </div>
+                    <div class="carrito-resumen__fila">
+                        <p class="carrito-resumen__etiqueta">Envío:</p>
+                        <p class="carrito-resumen__monto">
+                            <span id="carrito-envio" class="texto-gratis">¡Gratis!</span>
+                        </p>
+                    </div>
+                    <div class="carrito-resumen__fila carrito-resumen__fila--total">
+                        <p class="carrito-resumen__etiqueta">Total:</p>
+                        <p class="carrito-resumen__monto">
+                            <span id="carrito-total">$0</span>
+                        </p>
+                    </div>
+                </div>
+
+                <div class="carrito-acciones">
+                    <div class="carrito-acciones__item">
+                        <button type="button" id="btn-vaciar-carrito" class="btn-secundario btn-ancho-completo">
+                            Vaciar Carrito
+                        </button>
+                    </div>
+                    <div class="carrito-acciones__item">
+                        <button type="button" id="btn-finalizar-compra" class="btn-primario btn-ancho-completo">
+                            Finalizar Compra
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+        </aside>
+    </div>
+
+    <!-- Modal de Confirmación de Compra -->
+    <div id="modal-checkout" class="modal modal--oculto" role="dialog" aria-modal="true" aria-labelledby="modal-titulo">
+        <div id="modal-overlay" class="modal__overlay"></div>
+        <div class="modal__caja">
+            <div class="modal__icono-caja">
+                <span class="modal__icono" aria-hidden="true">🎉</span>
+            </div>
+            <h3 id="modal-titulo" class="modal__titulo">¡Compra Realizada con Éxito!</h3>
+            <p id="modal-mensaje" class="modal__descripcion">Tu pedido fue procesado correctamente. Gracias por confiar en Embrollitos MaLu.</p>
+            <div class="modal__resumen-caja" id="modal-resumen">
+                <!-- Resumen de confirmación inyectado por JS -->
+            </div>
+            <div class="modal__acciones">
+                <button type="button" id="btn-cerrar-modal" class="btn-primario">Aceptar y Continuar</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Contenedor de notificaciones flotantes (Toast) -->
+    <div id="toast-contenedor" class="toast-contenedor" aria-live="polite"></div>
+
+    <!-- Pie de página semántico -->
+    <footer class="footer">
+        <div class="footer__contenedor">
+            
+            <div class="footer__marca">
+                <div class="footer__logo-caja">
+                    <img src="logo_blancoNegro.jpg" alt="Logo monocromático de Embrollitos MaLu" class="footer__logo">
+                </div>
+                <div class="footer__info">
+                    <h3 class="footer__titulo">Embrollitos MaLu</h3>
+                    <p class="footer__descripcion">Especialistas en tazas sublimadas, bazar y artículos para personalización de máxima calidad.</p>
+                </div>
+            </div>
+
+            <div class="footer__creditos">
+                <p class="footer__texto">Trabajo Práctico Frontend - Programación III - División 131</p>
+                <p class="footer__texto">Desarrollado en HTML5 semántico, CSS responsivo y Vanilla JavaScript.</p>
+                <p class="footer__copyright">&copy; 2026 Embrollitos MaLu. Todos los derechos reservados.</p>
+            </div>
+
+        </div>
+    </footer>
+
+</body>
+</html>
