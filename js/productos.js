@@ -1,0 +1,138 @@
+/**
+ * ============================================================================
+ * UTN - Programación III - División 131
+ * Catálogo de Productos - Base de Datos Local
+ * Stack: JavaScript / Array de Objetos
+ * ============================================================================
+ */
+
+const PRODUCTOS = [
+    {
+        id: "1",
+        nombre: "Set azucarera y yerbera",
+        categoria: "sublimables varios",
+        precio: "12000",
+        imagen: "productos/setAzucarerayerbera.png",
+        descripcion: "set : Polímero"
+    },
+    {
+        id: "2",
+        nombre: "Taza Mágica",
+        categoria: "Tazas",
+        precio: "10000",
+        imagen: "productos/tazaMagica.png",
+        descripcion: "Taza negra mate, asa de corazón.Revela la estampa personalizada al contacto con líquidos calientes"
+    },
+    {
+        id: "3",
+        nombre: "Taza Interior Color",
+        categoria: "Tazas",
+        precio: "$10.000",
+        imagen: "productos/interiorColor.png",
+        descripcion: "Taza de cerámica blanca sublimable con interior y asa de color combinados."
+    },
+    {
+        id: "4",
+        nombre: "Lunchera Workat",
+        categoria: "Sublimables varios",
+        precio: "18000",
+        imagen: "productos/lunchera.png",
+        descripcion: "Lunchera - PREMIUM - Sublimable Workat Lunchi.Incluye 1 tenedor, 1 cuchillo y 1 cuchara"
+    },
+    {
+        id: "5",
+        nombre: "Pad Mouse Gamer",
+        categoria: "Sublimables varios",
+        precio: "6000",
+        imagen: "productos/padMouse.png",
+        descripcion: "Superficie de deslizamiento suave con base antideslizante para oficina o gaming."
+    },
+    {
+        id: "6",
+        nombre: "Posacelular",
+        categoria: "sublimables varios",
+        precio: "4900",
+        imagen: "productos/portaCelulares.png",
+        descripcion: "madera cristal"
+    },
+    {
+        id: "7",
+        nombre: "Set de Jardín",
+        categoria: "Sublimables varios",
+        precio: "7000",
+        imagen: "productos/textil.png",
+        descripcion: "Toalla, mantelito, servilleta"
+    },
+    {
+        id: "8",
+        nombre: "Set de Mate Completo",
+        categoria: "Sublimables varios",
+        precio: "18900",
+        imagen: "productos/setMate.png",
+        descripcion: "Mate sublimable con bombilla de acero inoxidable y base estable."
+    },
+    {
+        id: "9",
+        nombre: "Taza Blanca Clásica",
+        categoria: "Tazas",
+        precio: "$8.000",
+        imagen: "productos/tazaBlanca.png",
+        descripcion: "Taza de porcelana blanca premium con recubrimiento de polímero brillante."
+    },
+    {
+        id: "10",
+        nombre: "Taza Cónica",
+        categoria: "Tazas",
+        precio: "7000",
+        imagen: "productos/tazaConica.png",
+        descripcion: "Diseño cónico cerámica/polímero"
+    },
+    {
+        id: "11",
+        nombre: "Taza Glitter Brillante",
+        categoria: "Tazas",
+        precio: "10000",
+        imagen: "productos/tazaGlitter.png",
+        descripcion: "Acabado glitter metalizado con destellos brillantes de alta resistencia."
+    },
+    {
+        id: "12",
+        nombre: "Taza Mágica",
+        categoria: "Tazas",
+        precio: "10000",
+        imagen: "productos/tazaMagica.png",
+        descripcion: "Revela la estampa personalizada al contacto con líquidos calientes."
+    },
+    {
+        id: "13",
+        nombre: "Taza Negra Satinada",
+        categoria: "Tazas",
+        precio: "10000",
+        imagen: "productos/tazaNegra.png",
+        descripcion: "Taza de cerámica con acabado exterior negro satinado mate de estilo elegante."
+    },
+    {
+        id: "14",
+        nombre: "Taza  Workat",
+        categoria: "Tazas",
+        precio: "5000",
+        imagen: "productos/tazaWorkat.png",
+        descripcion: "Es ergonómica tanto para niños y adultos/Polímero"
+    },
+    {
+        id: "15",
+        nombre: "Kit Matero Workat",
+        categoria: "Sublimables varios",
+        precio: "15000",
+        imagen: "productos/kit Matero.png",
+        descripcion: "cierre seguro, sistema giratorio con trabas, evita aperturas accidentales"
+    },
+    {
+        id: "16",
+        nombre: "Termo",
+        categoria: "Sublimables varios",
+        precio: "$15.000",
+        imagen: "productos/termo.png",
+        descripcion: "Termico, Acero inoxidable /Polímero"
+    }
+];

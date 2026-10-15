@@ -1,0 +1,114 @@
+[
+  {
+    "id": 1,
+    "nombre": "Azucarera Cerámica",
+    "categoria": "Bazar",
+    "precio": 8500,
+    "imagen": "productos/azucarera.png",
+    "descripcion": "Azucarera de cerámica esmaltada con tapa hermética y excelente acabado."
+  },
+  {
+    "id": 2,
+    "nombre": "Taza Interior Color",
+    "categoria": "Tazas",
+    "precio": 7200,
+    "imagen": "productos/interiorColor.png",
+    "descripcion": "Taza de cerámica blanca sublimable con interior y asa de color combinados."
+  },
+  {
+    "id": 3,
+    "nombre": "Lunchera Térmica",
+    "categoria": "Accesorios",
+    "precio": 14500,
+    "imagen": "productos/lunchera.png",
+    "descripcion": "Lunchera térmica acolchada ideal para viandas, bebidas y colaciones."
+  },
+  {
+    "id": 4,
+    "nombre": "Pad Mouse Gamer",
+    "categoria": "Accesorios",
+    "precio": 6800,
+    "imagen": "productos/padMouse.png",
+    "descripcion": "Superficie de deslizamiento suave con base antideslizante para oficina o gaming."
+  },
+  {
+    "id": 5,
+    "nombre": "Portacelulares de Mesa",
+    "categoria": "Accesorios",
+    "precio": 4900,
+    "imagen": "productos/portacelulares.png",
+    "descripcion": "Soporte ergonómico de escritorio con espacio pasacable para carga continua."
+  },
+  {
+    "id": 6,
+    "nombre": "Set de Portavasos",
+    "categoria": "Bazar",
+    "precio": 3800,
+    "imagen": "productos/portaVasos.png",
+    "descripcion": "Juego de posavasos resistentes a la humedad, protege mesas y escritorios."
+  },
+  {
+    "id": 7,
+    "nombre": "Set de Mate Completo",
+    "categoria": "Bazar",
+    "precio": 18900,
+    "imagen": "productos/setMate.png",
+    "descripcion": "Mate térmico sublimable con bombilla de acero inoxidable y base estable."
+  },
+  {
+    "id": 8,
+    "nombre": "Taza Blanca Clásica",
+    "categoria": "Tazas",
+    "precio": 6500,
+    "imagen": "productos/tazaBlanca.png",
+    "descripcion": "Taza de porcelana blanca premium con recubrimiento de polímero brillante."
+  },
+  {
+    "id": 9,
+    "nombre": "Taza Cónica",
+    "categoria": "Tazas",
+    "precio": 7000,
+    "imagen": "productos/tazaConica.png",
+    "descripcion": "Diseño cónico moderno y ergonómico, óptima para capuchinos e infusiones."
+  },
+  {
+    "id": 10,
+    "nombre": "Taza Glitter Brillante",
+    "categoria": "Tazas",
+    "precio": 8900,
+    "imagen": "productos/tazaGlitter.png",
+    "descripcion": "Acabado glitter metalizado con destellos brillantes de alta resistencia."
+  },
+  {
+    "id": 11,
+    "nombre": "Taza Mágica Térmica",
+    "categoria": "Tazas",
+    "precio": 9500,
+    "imagen": "productos/tazaMagica.png",
+    "descripcion": "Revela la estampa personalizada al contacto con líquidos calientes."
+  },
+  {
+    "id": 12,
+    "nombre": "Taza Negra Satinada",
+    "categoria": "Tazas",
+    "precio": 7800,
+    "imagen": "productos/tazaNegra.png",
+    "descripcion": "Taza de cerámica con acabado exterior negro satinado mate de estilo elegante."
+  },
+  {
+    "id": 13,
+    "nombre": "Taza Térmica Workat",
+    "categoria": "Tazas",
+    "precio": 12500,
+    "imagen": "productos/tazaWorkat.png",
+    "descripcion": "Vaso térmico hermético apto para traslados, mantiene temperatura por horas."
+  },
+  {
+    "id": 14,
+    "nombre": "Yerbero Hermético",
+    "categoria": "Bazar",
+    "precio": 8200,
+    "imagen": "productos/yerbero.png",
+    "descripcion": "Contenedor hermético con pico vertedor plástico dosificador para yerba mate."
+  }
+]
