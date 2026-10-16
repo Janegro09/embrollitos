@@ -1,114 +1,146 @@
 [
   {
-    "id": 1,
-    "nombre": "Azucarera Cerámica",
-    "categoria": "Bazar",
-    "precio": 8500,
-    "imagen": "productos/azucarera.png",
-    "descripcion": "Azucarera de cerámica esmaltada con tapa hermética y excelente acabado."
+    "id": "1",
+    "nombre": "Set azucarera y yerbera",
+    "categoria": "sublimables varios",
+    "precio": "$12.000",
+    "imagen": "productos/setAzucarerayerbera.png",
+    "descripcion": "set : Polímero"
   },
   {
-    "id": 2,
+    "id": "2",
+    "nombre": "Taza Mágica ",
+    "categoria": "Tazas",
+    "precio": "$10.000",
+    "imagen": "productos/tazaMagica.png",
+    "descripcion": "Taza negra mate, asa de corazón.Revela la estampa personalizada al contacto con líquidos calientes"
+  },
+  {
+    "id": "3",
     "nombre": "Taza Interior Color",
     "categoria": "Tazas",
-    "precio": 7200,
+    "precio": "$10.000",
     "imagen": "productos/interiorColor.png",
     "descripcion": "Taza de cerámica blanca sublimable con interior y asa de color combinados."
   },
   {
-    "id": 3,
-    "nombre": "Lunchera Térmica",
-    "categoria": "Accesorios",
-    "precio": 14500,
+    "id": "4",
+    "nombre": "Lunchera Workat",
+    "categoria": "Sublimables varios",
+    "precio": "$18.000",
     "imagen": "productos/lunchera.png",
-    "descripcion": "Lunchera térmica acolchada ideal para viandas, bebidas y colaciones."
+    "descripcion": "Lunchera - PREMIUM - Sublimable Workat Lunchi.Incluye 1 tenedor, 1 cuchillo y 1 cuchara"
   },
   {
-    "id": 4,
+    "id": "5",
     "nombre": "Pad Mouse Gamer",
-    "categoria": "Accesorios",
-    "precio": 6800,
+    "categoria": "Sublimables varios",
+    "precio": "$6.000",
     "imagen": "productos/padMouse.png",
     "descripcion": "Superficie de deslizamiento suave con base antideslizante para oficina o gaming."
   },
   {
-    "id": 5,
-    "nombre": "Portacelulares de Mesa",
-    "categoria": "Accesorios",
-    "precio": 4900,
-    "imagen": "productos/portacelulares.png",
-    "descripcion": "Soporte ergonómico de escritorio con espacio pasacable para carga continua."
+    "id": "6",
+    "nombre": "Posacelular",
+    "categoria": "sublimables varios",
+    "precio": "$4.900",
+    "imagen": "productos/portaCelulares.png",
+    "descripcion": "madera cristal"
   },
   {
-    "id": 6,
-    "nombre": "Set de Portavasos",
-    "categoria": "Bazar",
-    "precio": 3800,
-    "imagen": "productos/portaVasos.png",
-    "descripcion": "Juego de posavasos resistentes a la humedad, protege mesas y escritorios."
+    "id": "7",
+    "nombre": "Set de Jardín",
+    "categoria": "Sublimables varios",
+    "precio": "$7.000",
+    "imagen": "productos/setJardinl.png",
+    "descripcion": "Toalla, mantelito, servilleta"
   },
   {
-    "id": 7,
+    "id": "8",
     "nombre": "Set de Mate Completo",
-    "categoria": "Bazar",
-    "precio": 18900,
+    "categoria": "Sublimables varios",
+    "precio": "$18.900",
     "imagen": "productos/setMate.png",
-    "descripcion": "Mate térmico sublimable con bombilla de acero inoxidable y base estable."
+    "descripcion": "Mate sublimable con bombilla de acero inoxidable y base estable."
   },
   {
-    "id": 8,
+    "id": "9",
     "nombre": "Taza Blanca Clásica",
     "categoria": "Tazas",
-    "precio": 6500,
+    "precio": "$8.000",
     "imagen": "productos/tazaBlanca.png",
     "descripcion": "Taza de porcelana blanca premium con recubrimiento de polímero brillante."
   },
   {
-    "id": 9,
+    "id": "10",
     "nombre": "Taza Cónica",
     "categoria": "Tazas",
-    "precio": 7000,
+    "precio": "$7.000",
     "imagen": "productos/tazaConica.png",
-    "descripcion": "Diseño cónico moderno y ergonómico, óptima para capuchinos e infusiones."
+    "descripcion": "Diseño cónico cerámica/polímero"
   },
   {
-    "id": 10,
+    "id": "11",
     "nombre": "Taza Glitter Brillante",
     "categoria": "Tazas",
-    "precio": 8900,
+    "precio": "$10.000",
     "imagen": "productos/tazaGlitter.png",
     "descripcion": "Acabado glitter metalizado con destellos brillantes de alta resistencia."
   },
   {
-    "id": 11,
-    "nombre": "Taza Mágica Térmica",
+    "id": "12",
+    "nombre": "Taza Mágica ",
     "categoria": "Tazas",
-    "precio": 9500,
+    "precio": "$10.000",
     "imagen": "productos/tazaMagica.png",
     "descripcion": "Revela la estampa personalizada al contacto con líquidos calientes."
   },
   {
-    "id": 12,
+    "id": "13",
     "nombre": "Taza Negra Satinada",
     "categoria": "Tazas",
-    "precio": 7800,
+    "precio": "$10.000",
     "imagen": "productos/tazaNegra.png",
     "descripcion": "Taza de cerámica con acabado exterior negro satinado mate de estilo elegante."
   },
   {
-    "id": 13,
-    "nombre": "Taza Térmica Workat",
+    "id": "14",
+    "nombre": "Taza  Workat",
     "categoria": "Tazas",
-    "precio": 12500,
+    "precio": "$5.000",
     "imagen": "productos/tazaWorkat.png",
-    "descripcion": "Vaso térmico hermético apto para traslados, mantiene temperatura por horas."
+    "descripcion": "Es ergonómica tanto para niños y adultos/Polímero"
   },
   {
-    "id": 14,
-    "nombre": "Yerbero Hermético",
-    "categoria": "Bazar",
-    "precio": 8200,
-    "imagen": "productos/yerbero.png",
-    "descripcion": "Contenedor hermético con pico vertedor plástico dosificador para yerba mate."
+    "id": "15",
+    "nombre": "Kit Matero Workat",
+    "categoria": "Sublimables varios",
+    "precio": "$15.000",
+    "imagen": "productos/kitMatero.png",
+    "descripcion": "cierre seguro, sistema giratorio con trabas, evita aperturas accidentales"
+  },
+  {
+    "id": "16",
+    "nombre": "Termo",
+    "categoria": "Sublimables varios",
+    "precio": "$15.000",
+    "imagen": "productos/termo.png",
+    "descripcion": "Termico, Acero inoxidable /Polímero"
+  },
+  {
+    "id": "17",
+    "nombre": "Sublimación y Vinilo",
+    "categoria": "Vinilo",
+    "precio": "$10.000",
+    "imagen": "productos/Sub-vinilo.png",
+    "descripcion": "Combinación de sublimación y vinilo en tazas, vasos, termos, etc."
+  },
+  {
+    "id": "18",
+    "nombre": "Rompecabezas",
+    "categoria": "Sublimables varios",
+    "precio": "$3.500",
+    "imagen": "productos/rompecabezas.png",
+    "descripcion": "Cartón / adera cristal sublimable"
   }
 ]

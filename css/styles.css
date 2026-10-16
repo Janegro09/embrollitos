@@ -470,6 +470,8 @@ button, input, select {
     letter-spacing: 0.5px;
     padding: 0.25rem 0.65rem;
     border-radius: var(--radio-full);
+    background-color: rgba(13, 110, 253, 0.12);
+    color: var(--color-primario);
 }
 
 .badge-categoria--tazas {
@@ -482,9 +484,16 @@ button, input, select {
     color: var(--cat-bazar);
 }
 
-.badge-categoria--accesorios {
+.badge-categoria--accesorios,
+.badge-categoria--sublimables-varios,
+.badge-categoria--sublimablesvarios {
     background-color: rgba(111, 66, 193, 0.12);
     color: var(--cat-accesorios);
+}
+
+.badge-categoria--vinilo {
+    background-color: rgba(253, 126, 20, 0.15);
+    color: #d9480f;
 }
 
 .card-producto__titulo {

@@ -18,6 +18,7 @@
    ========================================================================== */
 const CLAVE_STORAGE = "carrito";
 let carrito = [];
+let catalogoProductos = [];
 
 /* ==========================================================================
    3. Referencias a Elementos del DOM (DOM Queries)
@@ -57,20 +58,87 @@ const toastContenedor = document.getElementById("toast-contenedor");
 let ultimoTextoPedido = "";
 
 /* ==========================================================================
-   4. Funciones de Utilidad y Formateo
+   4. Funciones de Utilidad, Normalización y Formateo
    ========================================================================== */
+/**
+ * Normaliza el catálogo para aceptar formatos flexibles:
+ * - Precios como string ("$12.000", "12000", "$ 12.000") o numéricos (12000)
+ * - IDs como string o número
+ * - Categorías unificadas y limpias
+ * @param {Array} lista 
+ * @returns {Array}
+ */
+function normalizarCatalogo(lista) {
+    if (!Array.isArray(lista)) return [];
+
+    return lista.map((p) => {
+        let precioNum = 0;
+        if (typeof p.precio === "number") {
+            precioNum = p.precio;
+        } else if (typeof p.precio === "string") {
+            // Elimina signo de moneda, espacios y puntos de miles
+            const soloDigitos = p.precio.replace(/[^0-9]/g, "");
+            precioNum = parseInt(soloDigitos, 10) || 0;
+        }
+
+        // Unificar categoría (capitalizar adecuadamente)
+        let cat = String(p.categoria || "Varios").trim();
+        if (cat.toLowerCase() === "sublimables varios") {
+            cat = "Sublimables varios";
+        } else if (cat.length > 0) {
+            cat = cat.charAt(0).toUpperCase() + cat.slice(1);
+        }
+
+        return {
+            id: String(p.id !== undefined ? p.id : "").trim(),
+            nombre: String(p.nombre || "").trim(),
+            categoria: cat,
+            precio: precioNum,
+            imagen: String(p.imagen || "").trim(),
+            descripcion: String(p.descripcion || "").trim()
+        };
+    });
+}
+
+/**
+ * Genera dinámicamente las opciones del selector de categorías según los productos disponibles
+ * @param {Array} productos 
+ */
+function inicializarCategorias(productos) {
+    if (!selectCategoria) return;
+
+    // Obtener categorías únicas presentes en los datos
+    const categoriasUnicas = Array.from(new Set(productos.map((p) => p.categoria))).filter(Boolean);
+    categoriasUnicas.sort((a, b) => a.localeCompare(b));
+
+    // Guardar categoría actualmente seleccionada si hubiera
+    const categoriaActual = selectCategoria.value;
+
+    selectCategoria.innerHTML = `<option value="todas">Todas las categorías</option>`;
+    categoriasUnicas.forEach((cat) => {
+        const option = document.createElement("option");
+        option.value = cat;
+        option.textContent = cat;
+        if (cat === categoriaActual) {
+            option.selected = true;
+        }
+        selectCategoria.appendChild(option);
+    });
+}
+
 /**
  * Da formato de moneda en pesos argentinos (ARS)
  * @param {number} valor 
  * @returns {string} Ejemplo: "$ 8.500"
  */
 function formatearPrecio(valor) {
+    const num = typeof valor === "number" ? valor : parseInt(String(valor).replace(/[^0-9]/g, ""), 10) || 0;
     return new Intl.NumberFormat("es-AR", {
         style: "currency",
         currency: "ARS",
         minimumFractionDigits: 0,
         maximumFractionDigits: 0
-    }).format(valor);
+    }).format(num);
 }
 
 /**
@@ -172,7 +240,12 @@ function cargarCarritoDesdeStorage() {
     try {
         const datosStorage = localStorage.getItem(CLAVE_STORAGE);
         if (datosStorage) {
-            carrito = JSON.parse(datosStorage);
+            const items = JSON.parse(datosStorage);
+            carrito = items.map((item) => ({
+                ...item,
+                id: String(item.id),
+                precio: typeof item.precio === "number" ? item.precio : parseInt(String(item.precio).replace(/[^0-9]/g, ""), 10) || 0
+            }));
         } else {
             carrito = [];
         }
@@ -193,7 +266,7 @@ function cargarCarritoDesdeStorage() {
 function renderizarCatalogo(listaProductos) {
     grillaProductos.innerHTML = "";
 
-    if (listaProductos.length === 0) {
+    if (!listaProductos || listaProductos.length === 0) {
         sinResultados.classList.remove("mensaje-aviso--oculto");
         return;
     }
@@ -201,6 +274,9 @@ function renderizarCatalogo(listaProductos) {
     sinResultados.classList.add("mensaje-aviso--oculto");
 
     listaProductos.forEach((producto) => {
+        // Clase badge sanitizada para CSS (reemplaza espacios por guiones)
+        const claseBadge = producto.categoria.toLowerCase().replace(/\s+/g, "-");
+
         // Elemento de bloque contenedor
         const card = document.createElement("article");
         card.className = "card-producto";
@@ -208,11 +284,11 @@ function renderizarCatalogo(listaProductos) {
         // Estructura HTML con riguroso respeto semántico y elementos en línea encapsulados
         card.innerHTML = `
             <div class="card-producto__imagen-caja">
-                <img src="${producto.imagen}" alt="${producto.nombre}" class="card-producto__imagen" loading="lazy">
+                <img src="${producto.imagen}" alt="${producto.nombre}" class="card-producto__imagen" loading="lazy" onerror="this.onerror=null; this.src='logo_blancoNegro.jpg';">
             </div>
             <div class="card-producto__cuerpo">
                 <div class="card-producto__categoria-caja">
-                    <span class="badge-categoria badge-categoria--${producto.categoria.toLowerCase()}">${producto.categoria}</span>
+                    <span class="badge-categoria badge-categoria--${claseBadge}">${producto.categoria}</span>
                 </div>
                 <h3 class="card-producto__titulo">${producto.nombre}</h3>
                 <p class="card-producto__descripcion">${producto.descripcion}</p>
@@ -240,11 +316,12 @@ function aplicarFiltrosYOrden() {
     const categoria = selectCategoria.value;
     const orden = selectOrden.value;
 
-    let resultado = PRODUCTOS.filter((prod) => {
+    let resultado = catalogoProductos.filter((prod) => {
         const coincideNombre = prod.nombre.toLowerCase().includes(texto);
         const coincideDesc = prod.descripcion.toLowerCase().includes(texto);
-        const coincideTexto = coincideNombre || coincideDesc;
-        const coincideCat = categoria === "todas" || prod.categoria === categoria;
+        const coincideCatTexto = prod.categoria.toLowerCase().includes(texto);
+        const coincideTexto = coincideNombre || coincideDesc || coincideCatTexto;
+        const coincideCat = categoria === "todas" || prod.categoria.toLowerCase() === categoria.toLowerCase();
         return coincideTexto && coincideCat;
     });
 
@@ -265,16 +342,17 @@ function aplicarFiltrosYOrden() {
    ========================================================================== */
 /**
  * Agrega un producto al carrito o incrementa su cantidad si ya existe
- * @param {number} idProducto 
+ * @param {string|number} idProducto 
  */
 function agregarAlCarrito(idProducto) {
-    const productoExistente = carrito.find((item) => item.id === idProducto);
+    const idStr = String(idProducto);
+    const productoExistente = carrito.find((item) => String(item.id) === idStr);
 
     if (productoExistente) {
         productoExistente.cantidad += 1;
         mostrarToast(`Se sumó otra unidad de "${productoExistente.nombre}"`, "exito");
     } else {
-        const productoCatalogo = PRODUCTOS.find((p) => p.id === idProducto);
+        const productoCatalogo = catalogoProductos.find((p) => String(p.id) === idStr);
         if (!productoCatalogo) return;
 
         carrito.push({
@@ -294,11 +372,12 @@ function agregarAlCarrito(idProducto) {
 
 /**
  * Modifica la cantidad de un ítem del carrito (+1 o -1)
- * @param {number} idProducto 
+ * @param {string|number} idProducto 
  * @param {number} variacion (+1 o -1)
  */
 function modificarCantidad(idProducto, variacion) {
-    const item = carrito.find((p) => p.id === idProducto);
+    const idStr = String(idProducto);
+    const item = carrito.find((p) => String(p.id) === idStr);
     if (!item) return;
 
     item.cantidad += variacion;
@@ -314,11 +393,12 @@ function modificarCantidad(idProducto, variacion) {
 
 /**
  * Elimina un producto específico del carrito
- * @param {number} idProducto 
+ * @param {string|number} idProducto 
  */
 function eliminarDelCarrito(idProducto) {
-    const productoAEliminar = carrito.find((p) => p.id === idProducto);
-    carrito = carrito.filter((item) => item.id !== idProducto);
+    const idStr = String(idProducto);
+    const productoAEliminar = carrito.find((p) => String(p.id) === idStr);
+    carrito = carrito.filter((item) => String(item.id) !== idStr);
 
     guardarCarritoEnStorage();
     actualizarCarritoUI();
@@ -501,15 +581,37 @@ function cerrarModalCheckout() {
     modalCheckout.classList.add("modal--oculto");
 }
 
+/**
+ * Carga e inicializa el catálogo desde PRODUCTOS o alternativamente desde productos.json
+ */
+async function cargarCatalogo() {
+    if (typeof PRODUCTOS !== "undefined" && Array.isArray(PRODUCTOS) && PRODUCTOS.length > 0) {
+        catalogoProductos = normalizarCatalogo(PRODUCTOS);
+    } else {
+        try {
+            const respuesta = await fetch("productos.json");
+            if (respuesta.ok) {
+                const datos = await respuesta.json();
+                catalogoProductos = normalizarCatalogo(datos);
+            }
+        } catch (error) {
+            console.warn("No se pudo cargar productos.json mediante fetch:", error);
+        }
+    }
+
+    inicializarCategorias(catalogoProductos);
+    renderizarCatalogo(catalogoProductos);
+}
+
 /* ==========================================================================
    9. Registro de Eventos (Event Listeners)
    ========================================================================== */
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     // 1. Cargar persistencia inicial
     cargarCarritoDesdeStorage();
 
-    // 2. Render inicial del catálogo y del carrito
-    renderizarCatalogo(PRODUCTOS);
+    // 2. Render inicial del catálogo normalizado y del carrito
+    await cargarCatalogo();
     actualizarCarritoUI();
 
     // 3. Apertura y cierre del drawer lateral
@@ -533,7 +635,7 @@ document.addEventListener("DOMContentLoaded", () => {
     grillaProductos.addEventListener("click", (e) => {
         const botonAgregar = e.target.closest(".btn-agregar-carrito");
         if (botonAgregar) {
-            const id = Number(botonAgregar.dataset.id);
+            const id = botonAgregar.dataset.id;
             agregarAlCarrito(id);
         }
     });
@@ -542,21 +644,21 @@ document.addEventListener("DOMContentLoaded", () => {
     carritoListado.addEventListener("click", (e) => {
         const botonIncrementar = e.target.closest(".btn-incrementar");
         if (botonIncrementar) {
-            const id = Number(botonIncrementar.dataset.id);
+            const id = botonIncrementar.dataset.id;
             modificarCantidad(id, 1);
             return;
         }
 
         const botonDecrementar = e.target.closest(".btn-decrementar");
         if (botonDecrementar) {
-            const id = Number(botonDecrementar.dataset.id);
+            const id = botonDecrementar.dataset.id;
             modificarCantidad(id, -1);
             return;
         }
 
         const botonEliminar = e.target.closest(".btn-eliminar-item");
         if (botonEliminar) {
-            const id = Number(botonEliminar.dataset.id);
+            const id = botonEliminar.dataset.id;
             eliminarDelCarrito(id);
             return;
         }
