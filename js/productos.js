@@ -133,7 +133,7 @@ const PRODUCTOS = [
     "nombre": "Sublimación y Vinilo",
     "categoria": "Vinilo",
     "precio": "$10.000",
-    "imagen": "productos/Sub-vinilo.png",
+    "imagen": "productos/sub-vinilo.png",
     "descripcion": "Combinación de sublimación y vinilo en tazas, vasos, termos, etc."
   },
   {
