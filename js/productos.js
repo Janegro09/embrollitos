@@ -1,12 +1,5 @@
-/**
- * ============================================================================
- * UTN - Programación III - División 131
- * Catálogo de Productos - Base de Datos Local
- * Stack: JavaScript / Array de Objetos
- * ============================================================================
- */
-
 const PRODUCTOS = [
+
   {
     "id": "1",
     "nombre": "Set azucarera y yerbera",
@@ -151,4 +144,4 @@ const PRODUCTOS = [
     "imagen": "productos/rompecabezas.png",
     "descripcion": "Cartón / adera cristal sublimable"
   }
-];
+]
