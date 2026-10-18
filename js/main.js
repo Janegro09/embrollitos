@@ -561,14 +561,7 @@ async function finalizarCompra() {
     modalCheckout.classList.remove("modal--oculto");
 
     if (copiadoExitoso) {
-        mostrarToast("📋 ¡Detalle copiado! Abrimos Instagram para enviar el pedido", "exito");
-    }
-
-    // Abrir Instagram Direct del comercio
-    try {
-        window.open("https://ig.me/m/embrollitos.malu", "_blank");
-    } catch (e) {
-        console.warn("No se pudo abrir automáticamente la ventana de Instagram:", e);
+        mostrarToast("📋 ¡Detalle del pedido copiado al portapapeles!", "exito");
     }
 
     // Vaciar carrito y limpiar storage tras concretar compra
