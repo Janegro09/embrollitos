@@ -5,7 +5,7 @@ const PRODUCTOS = [
     "nombre": "Set azucarera y yerbera",
     "categoria": "sublimables varios",
     "precio": "$12.000",
-    "imagen": "productos/setAzucarerayerbera.png",
+    "imagen": "productos/setAzucareraYerbera.png",
     "descripcion": "set : Polímero"
   },
   {
