@@ -1030,11 +1030,6 @@ button:disabled {
     margin-top: 0.35rem;
 }
 
-.texto-gratis {
-    color: var(--color-exito);
-    font-weight: 700;
-}
-
 /* Mensaje de Aviso de Instagram en el Carrito */
 .carrito-aviso-instagram {
     display: flex;

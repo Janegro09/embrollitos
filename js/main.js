@@ -224,18 +224,15 @@ async function copiarAlPortapapeles(texto) {
  * Genera el texto formateado con los productos del carrito para enviar por Instagram Direct
  * @param {Array} items 
  * @param {number} total 
- * @param {number} nroOrden 
  * @returns {string}
  */
-function generarTextoPedido(items, total, nroOrden) {
+function generarTextoPedido(items, total) {
     let mensaje = `¡Hola Embrollitos MaLu! 👋 Quiero coordinar este pedido realizado en la web:\n\n`;
     items.forEach((item, index) => {
         mensaje += `${index + 1}. ${item.nombre} (x${item.cantidad}) - ${formatearPrecio(item.precio * item.cantidad)}\n`;
     });
     mensaje += `\n📦 Total: ${formatearPrecio(total)}`;
-    mensaje += `\n🚚 Envío: ¡Gratis!`;
-    mensaje += `\n🔖 N° de orden: #${nroOrden}`;
-    mensaje += `\n\n¿Me indican cómo continuar con el diseño, pago y entrega? ¡Muchas gracias!`;
+    mensaje += `\n\n¿Me indican cómo continuar con el diseño y el pago? ¡Muchas gracias!`;
     return mensaje;
 }
 
@@ -452,7 +449,7 @@ function vaciarCarrito() {
 function calcularTotales() {
     const totalItems = carrito.reduce((acum, item) => acum + item.cantidad, 0);
     const subtotal = carrito.reduce((acum, item) => acum + item.precio * item.cantidad, 0);
-    const total = subtotal; // Envío bonificado
+    const total = subtotal;
 
     return { totalItems, subtotal, total };
 }
@@ -550,10 +547,9 @@ async function finalizarCompra() {
     if (carrito.length === 0) return;
 
     const { totalItems, total } = calcularTotales();
-    const nroOrden = Math.floor(100000 + Math.random() * 900000);
 
     // Generar el mensaje formateado con los productos exactos que se quisieron comprar
-    ultimoTextoPedido = generarTextoPedido(carrito, total, nroOrden);
+    ultimoTextoPedido = generarTextoPedido(carrito, total);
 
     // Intentar copiar automáticamente al portapapeles
     const copiadoExitoso = await copiarAlPortapapeles(ultimoTextoPedido);
@@ -570,9 +566,6 @@ async function finalizarCompra() {
         </div>
         <div class="modal__resumen-fila">
             <p><strong>Total estimado:</strong> ${formatearPrecio(total)}</p>
-        </div>
-        <div class="modal__resumen-fila">
-            <p><strong>N° de orden:</strong> #${nroOrden}</p>
         </div>
         <div class="modal__resumen-fila">
             <p><strong>Portapapeles:</strong> ${copiadoExitoso ? "📋 ¡Detalle copiado! Presioná Pegar (Ctrl + V) en el chat." : "⚠️ Copiá el texto del recuadro para enviarlo."}</p>
