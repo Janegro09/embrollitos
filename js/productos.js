@@ -143,5 +143,14 @@ const PRODUCTOS = [
     "precio": "$3.500",
     "imagen": "productos/rompecabezas.png",
     "descripcion": "Cartón / adera cristal sublimable"
+  },
+  {
+    "id": "19",
+    "nombre": "Stickers",
+    "categoria": "Vinilo",
+    "precio": "$3.000",
+    "imagen": "productos/stickers.png",
+    "descripcion": "Vinilo adhesivo/papel fotografico adhesivo"
   }
+
 ]
