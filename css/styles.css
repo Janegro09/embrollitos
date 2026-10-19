@@ -429,6 +429,7 @@ button, input, select {
 }
 
 .card-producto__imagen-caja {
+    position: relative;
     width: 100%;
     height: 220px;
     background-color: #fafbfc;
@@ -445,10 +446,51 @@ button, input, select {
     max-width: 100%;
     object-fit: contain;
     transition: transform 0.4s ease;
+    cursor: zoom-in;
 }
 
 .card-producto:hover .card-producto__imagen {
     transform: scale(1.06);
+}
+
+/* Botón flotante de lupa en la tarjeta */
+.card-producto__btn-lupa {
+    position: absolute;
+    top: 0.75rem;
+    right: 0.75rem;
+    width: 36px;
+    height: 36px;
+    border-radius: var(--radio-full);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    border: 1px solid var(--color-borde);
+    color: var(--color-texto-secundario);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+    transition: all var(--transicion-rapida);
+    opacity: 0.85;
+    z-index: 2;
+}
+
+.card-producto:hover .card-producto__btn-lupa {
+    opacity: 1;
+}
+
+.card-producto__btn-lupa:hover {
+    color: var(--color-primario);
+    background: #ffffff;
+    border-color: var(--color-primario);
+    transform: scale(1.12);
+    box-shadow: 0 4px 12px rgba(13, 110, 253, 0.22);
+}
+
+.card-producto__lupa-svg {
+    display: block;
+    stroke: currentColor;
 }
 
 .card-producto__cuerpo {
@@ -1176,6 +1218,180 @@ button:disabled {
 }
 
 /* ==========================================================================
+   Visor de Producto con Lupa Interactiva (Zoom Lens de Ecommerce)
+   ========================================================================== */
+.visor__caja {
+    max-width: 840px;
+    width: 95%;
+    text-align: left;
+    padding: 2.25rem;
+    position: relative;
+    max-height: 90vh;
+    overflow-y: auto;
+}
+
+.visor__btn-cerrar {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+}
+
+.visor__grid {
+    display: grid;
+    grid-template-columns: 1.15fr 1fr;
+    gap: 2rem;
+    align-items: center;
+    margin-top: 0.5rem;
+}
+
+.visor__col-imagen {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.visor__zoom-wrapper {
+    position: relative;
+    width: 100%;
+    height: 380px;
+    background-color: #fafbfc;
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-md);
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: crosshair;
+    user-select: none;
+    touch-action: none;
+}
+
+.visor__img {
+    max-width: 88%;
+    max-height: 88%;
+    object-fit: contain;
+    pointer-events: none;
+    transition: transform 0.15s ease-out;
+    transform-origin: center center;
+    will-change: transform, transform-origin;
+}
+
+.visor__img--zoom {
+    transform: scale(2.4);
+}
+
+/* Indicador visual de lente sobre el cursor */
+.visor__lupa-lente {
+    position: absolute;
+    width: 100px;
+    height: 100px;
+    border: 2px solid var(--color-primario);
+    border-radius: 50%;
+    pointer-events: none;
+    transform: translate(-50%, -50%);
+    opacity: 0;
+    box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.85), 0 4px 18px rgba(0, 0, 0, 0.18);
+    transition: opacity 0.15s ease;
+    background: radial-gradient(circle, rgba(13, 110, 253, 0.08) 0%, rgba(255, 255, 255, 0) 70%);
+}
+
+.visor__lupa-lente--activo {
+    opacity: 1;
+}
+
+/* Badge indicador de zoom activo */
+.visor__badge-zoom {
+    position: absolute;
+    top: 0.75rem;
+    left: 0.75rem;
+    background: rgba(17, 24, 39, 0.82);
+    color: #ffffff;
+    font-size: 0.75rem;
+    font-weight: 600;
+    padding: 0.28rem 0.65rem;
+    border-radius: var(--radio-full);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.35rem;
+    pointer-events: none;
+    opacity: 0;
+    transform: translateY(-4px);
+    transition: all var(--transicion-rapida);
+    z-index: 3;
+}
+
+.visor__badge-zoom--activo {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.visor__badge-icono {
+    font-size: 0.85rem;
+}
+
+.visor__ayuda-zoom {
+    font-size: 0.82rem;
+    color: var(--color-texto-secundario);
+    text-align: center;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.4rem;
+}
+
+.visor__col-info {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+}
+
+.visor__categoria-caja {
+    display: inline-flex;
+}
+
+.visor__titulo {
+    font-size: 1.45rem;
+    font-weight: 700;
+    color: var(--color-texto-principal);
+    line-height: 1.25;
+    margin: 0;
+}
+
+.visor__precio {
+    font-size: 1.65rem;
+    font-weight: 800;
+    color: var(--color-primario);
+    margin: 0;
+}
+
+.visor__descripcion-caja {
+    background-color: var(--color-superficie-alt);
+    border: 1px solid var(--color-borde);
+    border-radius: var(--radio-md);
+    padding: 0.9rem 1.1rem;
+    font-size: 0.92rem;
+    line-height: 1.5;
+    color: var(--color-texto-principal);
+}
+
+.visor__descripcion-etiqueta {
+    margin: 0 0 0.35rem 0;
+    color: var(--color-texto-secundario);
+    font-size: 0.82rem;
+}
+
+.visor__descripcion {
+    margin: 0;
+    color: var(--color-texto-principal);
+}
+
+.visor__acciones {
+    margin-top: 0.4rem;
+}
+
+/* ==========================================================================
    Notificaciones Flotantes (Toasts)
    ========================================================================== */
 .toast-contenedor {
@@ -1381,6 +1597,23 @@ button:disabled {
         align-items: flex-start;
         gap: 1rem;
     }
+
+    .visor__caja {
+        padding: 1.75rem 1.25rem;
+    }
+
+    .visor__grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .visor__zoom-wrapper {
+        height: 280px;
+    }
+
+    .visor__titulo {
+        font-size: 1.25rem;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1400,5 +1633,11 @@ button:disabled {
         max-width: 100%;
     }
 
+    .visor__caja {
+        padding: 1.25rem 1rem;
+    }
 
+    .visor__zoom-wrapper {
+        height: 230px;
+    }
 }

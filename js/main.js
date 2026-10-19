@@ -55,7 +55,22 @@ const btnCopiarNuevamente = document.getElementById("btn-copiar-nuevamente");
 const btnAbrirChatIg = document.getElementById("btn-abrir-chat-ig");
 const toastContenedor = document.getElementById("toast-contenedor");
 
+// Modal Visor de Imagen Ampliada con Lupa
+const modalVisor = document.getElementById("modal-visor");
+const visorOverlay = document.getElementById("visor-overlay");
+const btnCerrarVisor = document.getElementById("btn-cerrar-visor");
+const visorZoomWrapper = document.getElementById("visor-zoom-wrapper");
+const visorImg = document.getElementById("visor-img");
+const visorLupaLente = document.getElementById("visor-lupa-lente");
+const visorBadgeZoom = document.getElementById("visor-badge-zoom");
+const visorCategoria = document.getElementById("visor-categoria");
+const visorTitulo = document.getElementById("visor-titulo");
+const visorPrecio = document.getElementById("visor-precio");
+const visorDescripcion = document.getElementById("visor-descripcion");
+const visorBtnAgregar = document.getElementById("visor-btn-agregar");
+
 let ultimoTextoPedido = "";
+let productoEnVisorId = null;
 
 /* ==========================================================================
    4. Funciones de Utilidad, Normalización y Formateo
@@ -284,7 +299,15 @@ function renderizarCatalogo(listaProductos) {
         // Estructura HTML con riguroso respeto semántico y elementos en línea encapsulados
         card.innerHTML = `
             <div class="card-producto__imagen-caja">
-                <img src="${producto.imagen}" alt="${producto.nombre}" class="card-producto__imagen" loading="lazy" onerror="this.onerror=null; this.src='logo_blancoNegro.jpg';">
+                <img src="${producto.imagen}" alt="${producto.nombre}" class="card-producto__imagen" loading="lazy" onerror="this.onerror=null; this.src='logo_blancoNegro.jpg';" data-id="${producto.id}" title="Clic para ver ampliado con lupa">
+                <button type="button" class="card-producto__btn-lupa" data-id="${producto.id}" aria-label="Ampliar imagen de ${producto.nombre}" title="Ampliar imagen con lupa">
+                    <svg class="card-producto__lupa-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="11" cy="11" r="7"></circle>
+                        <line x1="21" y1="21" x2="16" y2="16"></line>
+                        <line x1="11" y1="8" x2="11" y2="14"></line>
+                        <line x1="8" y1="11" x2="14" y2="11"></line>
+                    </svg>
+                </button>
             </div>
             <div class="card-producto__cuerpo">
                 <div class="card-producto__categoria-caja">
@@ -575,6 +598,108 @@ function cerrarModalCheckout() {
 }
 
 /**
+ * Abre el visor de imagen ampliada con lupa interactiva para un producto
+ * @param {string|number} idProducto
+ */
+function abrirVisor(idProducto) {
+    if (!modalVisor || !catalogoProductos) return;
+
+    const idStr = String(idProducto);
+    const producto = catalogoProductos.find((p) => String(p.id) === idStr);
+    if (!producto) return;
+
+    productoEnVisorId = producto.id;
+
+    if (visorImg) {
+        visorImg.src = producto.imagen;
+        visorImg.alt = `Vista ampliada de ${producto.nombre}`;
+    }
+    if (visorTitulo) {
+        visorTitulo.textContent = producto.nombre;
+    }
+    if (visorPrecio) {
+        visorPrecio.textContent = formatearPrecio(producto.precio);
+    }
+    if (visorDescripcion) {
+        visorDescripcion.textContent = producto.descripcion;
+    }
+    if (visorCategoria) {
+        const claseBadge = producto.categoria.toLowerCase().replace(/\s+/g, "-");
+        visorCategoria.className = `badge-categoria badge-categoria--${claseBadge}`;
+        visorCategoria.textContent = producto.categoria;
+    }
+
+    desactivarLupa();
+
+    modalVisor.classList.remove("modal--oculto");
+    modalVisor.setAttribute("aria-hidden", "false");
+    document.body.style.overflow = "hidden";
+}
+
+/**
+ * Cierra el visor de producto y restaura el estado visual
+ */
+function cerrarVisor() {
+    if (!modalVisor) return;
+
+    modalVisor.classList.add("modal--oculto");
+    modalVisor.setAttribute("aria-hidden", "true");
+    desactivarLupa();
+
+    if (!carritoDrawer.classList.contains("abierto")) {
+        document.body.style.overflow = "";
+    }
+}
+
+/**
+ * Calcula y aplica el efecto de lupa interactiva (zoom centrado en el cursor)
+ * @param {MouseEvent|TouchEvent} e
+ */
+function actualizarLupa(e) {
+    if (!visorZoomWrapper || !visorImg) return;
+
+    const rect = visorZoomWrapper.getBoundingClientRect();
+    const clientX = e.touches ? e.touches[0].clientX : e.clientX;
+    const clientY = e.touches ? e.touches[0].clientY : e.clientY;
+
+    const offsetX = clientX - rect.left;
+    const offsetY = clientY - rect.top;
+
+    const posX = Math.max(0, Math.min(100, (offsetX / rect.width) * 100));
+    const posY = Math.max(0, Math.min(100, (offsetY / rect.height) * 100));
+
+    visorImg.classList.add("visor__img--zoom");
+    visorImg.style.transformOrigin = `${posX}% ${posY}%`;
+
+    if (visorBadgeZoom) {
+        visorBadgeZoom.classList.add("visor__badge-zoom--activo");
+    }
+
+    if (visorLupaLente) {
+        visorLupaLente.classList.add("visor__lupa-lente--activo");
+        visorLupaLente.style.left = `${offsetX}px`;
+        visorLupaLente.style.top = `${offsetY}px`;
+    }
+}
+
+/**
+ * Desactiva el aumento de la lupa y regresa al estado inicial
+ */
+function desactivarLupa() {
+    if (!visorImg) return;
+
+    visorImg.classList.remove("visor__img--zoom");
+    visorImg.style.transformOrigin = "center center";
+
+    if (visorBadgeZoom) {
+        visorBadgeZoom.classList.remove("visor__badge-zoom--activo");
+    }
+    if (visorLupaLente) {
+        visorLupaLente.classList.remove("visor__lupa-lente--activo");
+    }
+}
+
+/**
  * Carga e inicializa el catálogo desde PRODUCTOS o alternativamente desde productos.json
  */
 async function cargarCatalogo() {
@@ -612,7 +737,7 @@ document.addEventListener("DOMContentLoaded", async () => {
     btnCerrarCarrito.addEventListener("click", cerrarCarrito);
     carritoOverlay.addEventListener("click", cerrarCarrito);
 
-    // Cerrar drawer con tecla Escape
+    // Cerrar drawer y modales con tecla Escape
     document.addEventListener("keydown", (e) => {
         if (e.key === "Escape") {
             if (carritoDrawer.classList.contains("abierto")) {
@@ -621,15 +746,33 @@ document.addEventListener("DOMContentLoaded", async () => {
             if (!modalCheckout.classList.contains("modal--oculto")) {
                 cerrarModalCheckout();
             }
+            if (modalVisor && !modalVisor.classList.contains("modal--oculto")) {
+                cerrarVisor();
+            }
         }
     });
 
-    // 4. Delegación de eventos para agregar productos al carrito desde la grilla
+    // 4. Delegación de eventos en la grilla de productos (agregar al carrito o abrir lupa)
     grillaProductos.addEventListener("click", (e) => {
         const botonAgregar = e.target.closest(".btn-agregar-carrito");
         if (botonAgregar) {
             const id = botonAgregar.dataset.id;
             agregarAlCarrito(id);
+            return;
+        }
+
+        const botonLupa = e.target.closest(".card-producto__btn-lupa");
+        if (botonLupa) {
+            const id = botonLupa.dataset.id;
+            abrirVisor(id);
+            return;
+        }
+
+        const imagenProducto = e.target.closest(".card-producto__imagen");
+        if (imagenProducto) {
+            const id = imagenProducto.dataset.id;
+            abrirVisor(id);
+            return;
         }
     });
 
@@ -676,7 +819,38 @@ document.addEventListener("DOMContentLoaded", async () => {
         });
     }
 
-    // 8. Búsqueda y filtrado dinámico
+    // 8. Modal Visor de Imagen con Lupa Interactiva
+    if (btnCerrarVisor) {
+        btnCerrarVisor.addEventListener("click", cerrarVisor);
+    }
+    if (visorOverlay) {
+        visorOverlay.addEventListener("click", cerrarVisor);
+    }
+    if (visorBtnAgregar) {
+        visorBtnAgregar.addEventListener("click", () => {
+            if (productoEnVisorId) {
+                agregarAlCarrito(productoEnVisorId);
+            }
+        });
+    }
+
+    // Interacción de Lupa de aumento
+    if (visorZoomWrapper) {
+        visorZoomWrapper.addEventListener("mousemove", actualizarLupa);
+        visorZoomWrapper.addEventListener("mouseenter", actualizarLupa);
+        visorZoomWrapper.addEventListener("mouseleave", desactivarLupa);
+
+        // Soporte para gestos táctiles en móviles
+        visorZoomWrapper.addEventListener("touchstart", (e) => {
+            actualizarLupa(e);
+        }, { passive: true });
+        visorZoomWrapper.addEventListener("touchmove", (e) => {
+            actualizarLupa(e);
+        }, { passive: true });
+        visorZoomWrapper.addEventListener("touchend", desactivarLupa);
+    }
+
+    // 9. Búsqueda y filtrado dinámico
     inputBusqueda.addEventListener("input", aplicarFiltrosYOrden);
     selectCategoria.addEventListener("change", aplicarFiltrosYOrden);
     selectOrden.addEventListener("change", aplicarFiltrosYOrden);

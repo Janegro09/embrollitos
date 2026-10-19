@@ -364,6 +364,52 @@
         </div>
     </div>
 
+    <!-- Modal Visor de Imagen Ampliada con Lupa de Ecommerce -->
+    <div id="modal-visor" class="modal modal--oculto" role="dialog" aria-modal="true" aria-labelledby="visor-titulo" aria-hidden="true">
+        <div id="visor-overlay" class="modal__overlay"></div>
+        <div class="modal__caja visor__caja">
+            <button type="button" class="btn-cerrar visor__btn-cerrar" id="btn-cerrar-visor" aria-label="Cerrar visor de imagen">&times;</button>
+            <div class="visor__grid">
+                
+                <!-- Área de imagen y lupa interactiva -->
+                <div class="visor__col-imagen">
+                    <div class="visor__zoom-wrapper" id="visor-zoom-wrapper" tabindex="0" role="region" aria-label="Área de imagen ampliada con lupa interactiva">
+                        <img id="visor-img" src="" alt="" class="visor__img">
+                        <div id="visor-lupa-lente" class="visor__lupa-lente" aria-hidden="true"></div>
+                        <div class="visor__badge-zoom" id="visor-badge-zoom" aria-hidden="true">
+                            <span class="visor__badge-icono">🔍</span>
+                            <span class="visor__badge-texto">Zoom activo</span>
+                        </div>
+                    </div>
+                    <p class="visor__ayuda-zoom">
+                        <span aria-hidden="true">💡</span>
+                        <span>Mové el mouse o deslizá sobre la imagen para examinar los detalles con la lupa</span>
+                    </p>
+                </div>
+
+                <!-- Información del producto en el visor -->
+                <div class="visor__col-info">
+                    <div class="visor__categoria-caja">
+                        <span id="visor-categoria" class="badge-categoria"></span>
+                    </div>
+                    <h3 id="visor-titulo" class="visor__titulo"></h3>
+                    <p id="visor-precio" class="visor__precio"></p>
+                    <div class="visor__descripcion-caja">
+                        <p class="visor__descripcion-etiqueta"><strong>Detalle del producto:</strong></p>
+                        <p id="visor-descripcion" class="visor__descripcion"></p>
+                    </div>
+                    <div class="visor__acciones">
+                        <button type="button" id="visor-btn-agregar" class="btn-primario btn-ancho-completo">
+                            <span aria-hidden="true">🛒</span>
+                            <span>Agregar al carrito</span>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
     <!-- Contenedor de notificaciones flotantes (Toast) -->
     <div id="toast-contenedor" class="toast-contenedor" aria-live="polite"></div>
 
