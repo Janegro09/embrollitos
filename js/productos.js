@@ -188,6 +188,6 @@ const PRODUCTOS = [
       "productos/ninos.png",
       "productos/setJardin.png"
     ],
-    "descripcion": "Taza, servileta, mantelito, set higiene personalizados"
+    "descripcion": "Taza, servilleta, mantelito, set higiene personalizados"
   }
 ];
