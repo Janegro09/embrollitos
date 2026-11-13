@@ -493,6 +493,27 @@ button, input, select {
     stroke: currentColor;
 }
 
+/* Indicador de fotos múltiples en la tarjeta */
+.card-producto__badge-fotos {
+    position: absolute;
+    bottom: 0.65rem;
+    left: 0.65rem;
+    background: rgba(17, 24, 39, 0.78);
+    color: #ffffff;
+    font-size: 0.72rem;
+    font-weight: 600;
+    padding: 0.2rem 0.55rem;
+    border-radius: var(--radio-full);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.3rem;
+    pointer-events: none;
+    backdrop-filter: blur(4px);
+    -webkit-backdrop-filter: blur(4px);
+    z-index: 2;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.15);
+}
+
 .card-producto__cuerpo {
     padding: 1.25rem;
     display: flex;
@@ -1323,6 +1344,59 @@ button:disabled {
 
 .visor__badge-icono {
     font-size: 0.85rem;
+}
+
+/* Miniaturas de la galería en el visor */
+.visor__miniaturas {
+    display: flex;
+    gap: 0.65rem;
+    overflow-x: auto;
+    padding: 0.25rem 0.15rem;
+    justify-content: center;
+    scrollbar-width: thin;
+}
+
+.visor__miniaturas::-webkit-scrollbar {
+    height: 4px;
+}
+
+.visor__miniaturas::-webkit-scrollbar-thumb {
+    background-color: var(--color-borde);
+    border-radius: var(--radio-full);
+}
+
+.visor__miniatura-btn {
+    width: 64px;
+    height: 64px;
+    border-radius: var(--radio-sm);
+    border: 2px solid var(--color-borde);
+    background-color: #fafbfc;
+    padding: 3px;
+    cursor: pointer;
+    overflow: hidden;
+    flex-shrink: 0;
+    transition: all var(--transicion-rapida);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.visor__miniatura-btn:hover {
+    border-color: var(--color-primario);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+}
+
+.visor__miniatura-btn--activa {
+    border-color: var(--color-primario);
+    box-shadow: 0 0 0 2px var(--color-primario-suave);
+}
+
+.visor__miniatura-img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    pointer-events: none;
 }
 
 .visor__ayuda-zoom {

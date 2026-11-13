@@ -1,156 +1,193 @@
 const PRODUCTOS = [
-
   {
-    "id": "1",
+    "id": 1,
     "nombre": "Set azucarera y yerbera",
-    "categoria": "sublimables varios",
-    "precio": "$12.000",
-    "imagen": "productos/setAzucareraYerbera.png",
+    "categoria": "Sublimables varios",
+    "precio": 12000,
+    "imagenes": [
+      "productos/setAzucarerayerbera.png"
+    ],
     "descripcion": "set : Polímero"
   },
   {
-    "id": "2",
-    "nombre": "Taza Mágica ",
+    "id": 2,
+    "nombre": "Taza Mágica",
     "categoria": "Tazas",
-    "precio": "$10.000",
-    "imagen": "productos/tazaMagica.png",
+    "precio": 10000,
+    "imagenes": [
+      "productos/tazaMagica.png"
+    ],
     "descripcion": "Taza negra mate, asa de corazón.Revela la estampa personalizada al contacto con líquidos calientes"
   },
   {
-    "id": "3",
+    "id": 3,
     "nombre": "Taza Interior Color",
     "categoria": "Tazas",
-    "precio": "$10.000",
-    "imagen": "productos/interiorColor.png",
+    "precio": 10000,
+    "imagenes": [
+      "productos/interiorColor.png"
+    ],
     "descripcion": "Taza de cerámica blanca sublimable con interior y asa de color combinados."
   },
   {
-    "id": "4",
+    "id": 4,
     "nombre": "Lunchera Workat",
     "categoria": "Sublimables varios",
-    "precio": "$18.000",
-    "imagen": "productos/lunchera.png",
+    "precio": 18000,
+    "imagenes": [
+      "productos/lunchera.png"
+    ],
     "descripcion": "Lunchera - PREMIUM - Sublimable Workat Lunchi.Incluye 1 tenedor, 1 cuchillo y 1 cuchara"
   },
   {
-    "id": "5",
+    "id": 5,
     "nombre": "Pad Mouse Gamer",
     "categoria": "Sublimables varios",
-    "precio": "$6.000",
-    "imagen": "productos/padMouse.png",
+    "precio": 6000,
+    "imagenes": [
+      "productos/padMouse.png"
+    ],
     "descripcion": "Superficie de deslizamiento suave con base antideslizante para oficina o gaming."
   },
   {
-    "id": "6",
+    "id": 6,
     "nombre": "Posacelular",
-    "categoria": "sublimables varios",
-    "precio": "$4.900",
-    "imagen": "productos/portaCelulares.png",
+    "categoria": "Sublimables varios",
+    "precio": 4900,
+    "imagenes": [
+      "productos/portaCelulares.png"
+    ],
     "descripcion": "madera cristal"
   },
   {
-    "id": "7",
+    "id": 7,
     "nombre": "Set de Jardín",
     "categoria": "Sublimables varios",
-    "precio": "$7.000",
-    "imagen": "productos/setJardinl.png",
+    "precio": 7000,
+    "imagenes": [
+      "productos/setJardinl.png"
+    ],
     "descripcion": "Toalla, mantelito, servilleta"
   },
   {
-    "id": "8",
+    "id": 8,
     "nombre": "Set de Mate Completo",
     "categoria": "Sublimables varios",
-    "precio": "$18.900",
-    "imagen": "productos/setMate.png",
+    "precio": 18900,
+    "imagenes": [
+      "productos/setMate.png"
+    ],
     "descripcion": "Mate sublimable con bombilla de acero inoxidable y base estable."
   },
   {
-    "id": "9",
+    "id": 9,
     "nombre": "Taza Blanca Clásica",
     "categoria": "Tazas",
-    "precio": "$8.000",
-    "imagen": "productos/tazaBlanca.png",
+    "precio": 8000,
+    "imagenes": [
+      "productos/tazaBlanca.png"
+    ],
     "descripcion": "Taza de porcelana blanca premium con recubrimiento de polímero brillante."
   },
   {
-    "id": "10",
+    "id": 10,
     "nombre": "Taza Cónica",
     "categoria": "Tazas",
-    "precio": "$7.000",
-    "imagen": "productos/tazaConica.png",
+    "precio": 7000,
+    "imagenes": [
+      "productos/tazaConica.png"
+    ],
     "descripcion": "Diseño cónico cerámica/polímero"
   },
   {
-    "id": "11",
+    "id": 11,
     "nombre": "Taza Glitter Brillante",
     "categoria": "Tazas",
-    "precio": "$10.000",
-    "imagen": "productos/tazaGlitter.png",
+    "precio": 10000,
+    "imagenes": [
+      "productos/tazaGlitter.png"
+    ],
     "descripcion": "Acabado glitter metalizado con destellos brillantes de alta resistencia."
   },
   {
-    "id": "12",
-    "nombre": "Taza Mágica ",
-    "categoria": "Tazas",
-    "precio": "$10.000",
-    "imagen": "productos/tazaMagica.png",
-    "descripcion": "Revela la estampa personalizada al contacto con líquidos calientes."
-  },
-  {
-    "id": "13",
+    "id": 13,
     "nombre": "Taza Negra Satinada",
     "categoria": "Tazas",
-    "precio": "$10.000",
-    "imagen": "productos/tazaNegra.png",
+    "precio": 10000,
+    "imagenes": [
+      "productos/tazaNegra.png"
+    ],
     "descripcion": "Taza de cerámica con acabado exterior negro satinado mate de estilo elegante."
   },
   {
-    "id": "14",
+    "id": 14,
     "nombre": "Taza  Workat",
     "categoria": "Tazas",
-    "precio": "$5.000",
-    "imagen": "productos/tazaWorkat.png",
+    "precio": 5000,
+    "imagenes": [
+      "productos/tazaWorkat.png"
+    ],
     "descripcion": "Es ergonómica tanto para niños y adultos/Polímero"
   },
   {
-    "id": "15",
+    "id": 15,
     "nombre": "Kit Matero Workat",
     "categoria": "Sublimables varios",
-    "precio": "$15.000",
-    "imagen": "productos/kitMatero.png",
+    "precio": 15000,
+    "imagenes": [
+      "productos/kitMatero.png"
+    ],
     "descripcion": "cierre seguro, sistema giratorio con trabas, evita aperturas accidentales"
   },
   {
-    "id": "16",
+    "id": 16,
     "nombre": "Termo",
     "categoria": "Sublimables varios",
-    "precio": "$15.000",
-    "imagen": "productos/termo.png",
+    "precio": 15000,
+    "imagenes": [
+      "productos/termo.png"
+    ],
     "descripcion": "Termico, Acero inoxidable /Polímero"
   },
   {
-    "id": "17",
+    "id": 17,
     "nombre": "Sublimación y Vinilo",
     "categoria": "Vinilo",
-    "precio": "$10.000",
-    "imagen": "productos/sub-vinilo.png",
+    "precio": 10000,
+    "imagenes": [
+      "productos/Sub-vinilo.png"
+    ],
     "descripcion": "Combinación de sublimación y vinilo en tazas, vasos, termos, etc."
   },
   {
-    "id": "18",
+    "id": 18,
     "nombre": "Rompecabezas",
     "categoria": "Sublimables varios",
-    "precio": "$3.500",
-    "imagen": "productos/rompecabezas.png",
-    "descripcion": "Cartón / adera cristal sublimable"
+    "precio": 3500,
+    "imagenes": [
+      "productos/rompecabezas.png"
+    ],
+    "descripcion": "Cartón / madera cristal sublimable"
   },
   {
-    "id": "19",
-    "nombre": "Stickers",
+    "id": 19,
+    "nombre": "stickers",
     "categoria": "Vinilo",
-    "precio": "$3.000",
-    "imagen": "productos/stickers.png",
-    "descripcion": "Vinilo adhesivo/papel fotografico adhesivo"
+    "precio": 3000,
+    "imagenes": [
+      "productos/stickers.png"
+    ],
+    "descripcion": "Vinilo adhesivo/ papel fotografico adhesivo"
+  },
+  {
+    "id": 20,
+    "nombre": "Set Jardin",
+    "categoria": "Sublimables varios",
+    "precio": 15000,
+    "imagenes": [
+      "productos/ninos.png",
+      "productos/setJardin.png"
+    ],
+    "descripcion": "Taza, servileta, mantelito, set higiene personalizados"
   }
-
-]
+];

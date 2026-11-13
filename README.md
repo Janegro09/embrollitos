@@ -83,6 +83,9 @@ javier_sosa_utn_progra_3/
 │   ├── main.js             # Lógica del catálogo, filtros, carrito, lupa y portapapeles
 │   └── productos.js        # Datos del catálogo para carga estática offline
 │
+├── scripts/
+│   └── agrupar-productos.js # Script utilitario para agrupar productos y fotos desde CSV/JSON
+│
 └── productos/              # Imágenes optimizadas de los artículos sublimables
 ```
 
@@ -124,6 +127,25 @@ No requiere la instalación de gestores de paquetes como npm o bundlers. Para ej
    python -m http.server 8000
    ```
 4. Ingresar a `http://localhost:8000` en tu navegador web.
+
+---
+
+## 🔄 Carga y Consolidación de Productos (CSV a JSON)
+
+Si exportás tus productos desde un Excel o CSV a JSON y tenés productos con múltiples fotos en filas separadas (por ejemplo, varias filas con el mismo nombre y diferentes imágenes):
+
+1. Pegá el JSON crudo en `productos.json`.
+2. Ejecutá el script de consolidación:
+   ```bash
+   node scripts/agrupar-productos.js
+   ```
+3. El script automáticamente:
+   - Agrupa los productos repetidos unificando sus fotos en `imagenes: [...]`.
+   - Limpia y convierte los precios a números limpios (ej. `"$15.000"` $\rightarrow$ `15000`).
+   - Sincroniza tanto `productos.json` como `js/productos.js`.
+   - Muestra un reporte en consola con los productos consolidados.
+
+> **Nota:** Incluso si no ejecutás el script, la propia web en runtime ([`js/main.js`](file:///c:/Users/javie/Desktop/utn/javier_sosa_utn_progra_3/js/main.js)) realiza esta misma normalización y agrupación en memoria al cargar los productos.
 
 ---
 

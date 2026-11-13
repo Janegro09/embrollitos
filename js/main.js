@@ -63,6 +63,7 @@ const visorZoomWrapper = document.getElementById("visor-zoom-wrapper");
 const visorImg = document.getElementById("visor-img");
 const visorLupaLente = document.getElementById("visor-lupa-lente");
 const visorBadgeZoom = document.getElementById("visor-badge-zoom");
+const visorMiniaturas = document.getElementById("visor-miniaturas");
 const visorCategoria = document.getElementById("visor-categoria");
 const visorTitulo = document.getElementById("visor-titulo");
 const visorPrecio = document.getElementById("visor-precio");
@@ -76,27 +77,34 @@ let productoEnVisorId = null;
    4. Funciones de Utilidad, Normalización y Formateo
    ========================================================================== */
 /**
- * Normaliza el catálogo para aceptar formatos flexibles:
- * - Precios como string ("$12.000", "12000", "$ 12.000") o numéricos (12000)
- * - IDs como string o número
- * - Categorías unificadas y limpias
+ * Normaliza y consolida el catálogo:
+ * - Agrupa automáticamente filas duplicadas del mismo producto provenientes de CSV/JSON
+ * - Consolida las imágenes en el arreglo `imagenes: [...]`
+ * - Limpia precios ("$12.000" -> 12000), categorías y textos
  * @param {Array} lista 
  * @returns {Array}
  */
 function normalizarCatalogo(lista) {
     if (!Array.isArray(lista)) return [];
 
-    return lista.map((p) => {
+    const mapa = new Map();
+
+    lista.forEach((p) => {
+        if (!p) return;
+
+        const nombreLimpio = String(p.nombre || "").trim();
+        if (!nombreLimpio) return;
+
+        const clave = nombreLimpio.toLowerCase().replace(/\s+/g, " ");
+
         let precioNum = 0;
         if (typeof p.precio === "number") {
-            precioNum = p.precio;
+            precioNum = Math.round(p.precio);
         } else if (typeof p.precio === "string") {
-            // Elimina signo de moneda, espacios y puntos de miles
             const soloDigitos = p.precio.replace(/[^0-9]/g, "");
             precioNum = parseInt(soloDigitos, 10) || 0;
         }
 
-        // Unificar categoría (capitalizar adecuadamente)
         let cat = String(p.categoria || "Varios").trim();
         if (cat.toLowerCase() === "sublimables varios") {
             cat = "Sublimables varios";
@@ -104,15 +112,56 @@ function normalizarCatalogo(lista) {
             cat = cat.charAt(0).toUpperCase() + cat.slice(1);
         }
 
-        return {
-            id: String(p.id !== undefined ? p.id : "").trim(),
-            nombre: String(p.nombre || "").trim(),
-            categoria: cat,
-            precio: precioNum,
-            imagen: String(p.imagen || "").trim(),
-            descripcion: String(p.descripcion || "").trim()
-        };
+        let listaImagenes = [];
+        if (Array.isArray(p.imagenes) && p.imagenes.length > 0) {
+            listaImagenes = p.imagenes.map((img) => String(img || "").trim()).filter(Boolean);
+        } else if (typeof p.imagen === "string" && p.imagen.trim().length > 0) {
+            const raw = p.imagen.trim();
+            if (raw.includes(";") || raw.includes("\n")) {
+                listaImagenes = raw.split(/[;\n]+/).map((img) => img.trim()).filter(Boolean);
+            } else {
+                listaImagenes = [raw];
+            }
+        } else if (typeof p.imagenes === "string" && p.imagenes.trim().length > 0) {
+            const raw = p.imagenes.trim();
+            listaImagenes = raw.split(/[;\n]+/).map((img) => img.trim()).filter(Boolean);
+        }
+
+        if (listaImagenes.length === 0) {
+            listaImagenes = ["logo_blancoNegro.jpg"];
+        }
+
+        const descripcionLimpia = String(p.descripcion || "").trim();
+
+        if (mapa.has(clave)) {
+            const existente = mapa.get(clave);
+            listaImagenes.forEach((img) => {
+                if (!existente.imagenes.includes(img)) {
+                    existente.imagenes.push(img);
+                }
+            });
+            existente.imagen = existente.imagenes[0];
+            if (descripcionLimpia.length > existente.descripcion.length) {
+                existente.descripcion = descripcionLimpia;
+            }
+            if (existente.precio === 0 && precioNum > 0) {
+                existente.precio = precioNum;
+            }
+        } else {
+            const idStr = String(p.id !== undefined ? p.id : "").trim() || String(mapa.size + 1);
+            mapa.set(clave, {
+                id: idStr,
+                nombre: nombreLimpio,
+                categoria: cat,
+                precio: precioNum,
+                imagen: listaImagenes[0],
+                imagenes: listaImagenes,
+                descripcion: descripcionLimpia
+            });
+        }
     });
+
+    return Array.from(mapa.values());
 }
 
 /**
@@ -289,6 +338,11 @@ function renderizarCatalogo(listaProductos) {
         // Clase badge sanitizada para CSS (reemplaza espacios por guiones)
         const claseBadge = producto.categoria.toLowerCase().replace(/\s+/g, "-");
 
+        // Indicador discreto si el producto cuenta con más de una foto
+        const badgeFotosHTML = (producto.imagenes && producto.imagenes.length > 1)
+            ? `<span class="card-producto__badge-fotos" aria-label="${producto.imagenes.length} fotos disponibles">📸 ${producto.imagenes.length} fotos</span>`
+            : "";
+
         // Elemento de bloque contenedor
         const card = document.createElement("article");
         card.className = "card-producto";
@@ -297,6 +351,7 @@ function renderizarCatalogo(listaProductos) {
         card.innerHTML = `
             <div class="card-producto__imagen-caja">
                 <img src="${producto.imagen}" alt="${producto.nombre}" class="card-producto__imagen" loading="lazy" onerror="this.onerror=null; this.src='logo_blancoNegro.jpg';" data-id="${producto.id}" title="Clic para ver ampliado con lupa">
+                ${badgeFotosHTML}
                 <button type="button" class="card-producto__btn-lupa" data-id="${producto.id}" aria-label="Ampliar imagen de ${producto.nombre}" title="Ampliar imagen con lupa">
                     <svg class="card-producto__lupa-svg" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
                         <circle cx="11" cy="11" r="7"></circle>
@@ -622,6 +677,38 @@ function abrirVisor(idProducto) {
         visorCategoria.textContent = producto.categoria;
     }
 
+    // Miniaturas interactivas para productos con múltiples imágenes
+    if (visorMiniaturas) {
+        visorMiniaturas.innerHTML = "";
+        const imagenes = Array.isArray(producto.imagenes) && producto.imagenes.length > 0
+            ? producto.imagenes
+            : [producto.imagen];
+
+        if (imagenes.length > 1) {
+            visorMiniaturas.style.display = "flex";
+            imagenes.forEach((imgUrl, idx) => {
+                const btn = document.createElement("button");
+                btn.type = "button";
+                btn.className = `visor__miniatura-btn ${idx === 0 ? "visor__miniatura-btn--activa" : ""}`;
+                btn.setAttribute("aria-label", `Ver imagen ${idx + 1} de ${producto.nombre}`);
+                btn.innerHTML = `<img src="${imgUrl}" alt="Miniatura ${idx + 1}" class="visor__miniatura-img" onerror="this.onerror=null; this.src='logo_blancoNegro.jpg';">`;
+
+                btn.addEventListener("click", () => {
+                    if (visorImg) {
+                        visorImg.src = imgUrl;
+                    }
+                    desactivarLupa();
+                    visorMiniaturas.querySelectorAll(".visor__miniatura-btn").forEach((b) => b.classList.remove("visor__miniatura-btn--activa"));
+                    btn.classList.add("visor__miniatura-btn--activa");
+                });
+
+                visorMiniaturas.appendChild(btn);
+            });
+        } else {
+            visorMiniaturas.style.display = "none";
+        }
+    }
+
     desactivarLupa();
 
     modalVisor.classList.remove("modal--oculto");
@@ -638,6 +725,11 @@ function cerrarVisor() {
     modalVisor.classList.add("modal--oculto");
     modalVisor.setAttribute("aria-hidden", "true");
     desactivarLupa();
+
+    if (visorMiniaturas) {
+        visorMiniaturas.innerHTML = "";
+        visorMiniaturas.style.display = "none";
+    }
 
     if (!carritoDrawer.classList.contains("abierto")) {
         document.body.style.overflow = "";
